@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "2751993F292D4E75AE1E6FCE5FB09FBE968A7396",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "2751993F292D4E75AE1E6FCE5FB09FBE968A7396" : 0,
+    "8C1B52B9E8F975F9D231D4E549A71DD82D170957" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "21A2D9DC-82C0-4C56-A0CD-32228A84D976",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "2751993F292D4E75AE1E6FCE5FB09FBE968A7396" : "3-20-client\/",
+    "8C1B52B9E8F975F9D231D4E549A71DD82D170957" : ".."
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "3-20-client",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "3-20-client.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/mnawalan\/WASTE_SD.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "2751993F292D4E75AE1E6FCE5FB09FBE968A7396"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/NDMobileApps\/sp16-final-project-doof.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "8C1B52B9E8F975F9D231D4E549A71DD82D170957"
+    }
+  ]
+}

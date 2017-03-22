@@ -39,18 +39,71 @@
                                     <action selector="ProceedToDisconnect:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0Ya-5f-6gc"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2bw-Bu-XVm">
+                                <rect key="frame" x="263" y="399" width="74" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="bY4-xT-34o"/>
+                                    <constraint firstAttribute="width" constant="74" id="ogw-5t-gwh"/>
+                                </constraints>
+                                <state key="normal" title="Reconnect"/>
+                                <connections>
+                                    <action selector="ProceedToReconnect:" destination="BYZ-38-t0r" eventType="touchUpInside" id="khS-dU-mky"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EJW-oW-cKJ">
+                                <rect key="frame" x="265" y="323" width="70" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="5Kg-RS-QzC"/>
+                                    <constraint firstAttribute="width" constant="70" id="Bla-4z-SKT"/>
+                                </constraints>
+                                <state key="normal" title="Subscribe"/>
+                                <connections>
+                                    <action selector="ProceedToSubscribe:" destination="BYZ-38-t0r" eventType="touchUpInside" id="fy6-PG-hIa"/>
+                                </connections>
+                            </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="default" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="QKl-xk-RyO">
+                                <rect key="frame" x="180" y="99" width="240" height="175"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="240" id="Vtj-MF-wbI"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Incoming Message: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RoB-ED-0KT">
+                                <rect key="frame" x="224" y="62" width="153" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="153" id="Z5S-Zq-xQT"/>
+                                    <constraint firstAttribute="height" constant="21" id="q6N-3j-4L7"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="ok9-QB-bhT" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="36v-LB-Toj"/>
+                            <constraint firstItem="2bw-Bu-XVm" firstAttribute="top" secondItem="lP2-Kd-VSC" secondAttribute="bottom" constant="8" id="3Yi-Nt-oVd"/>
+                            <constraint firstItem="EJW-oW-cKJ" firstAttribute="top" secondItem="ok9-QB-bhT" secondAttribute="bottom" constant="5" id="8hK-ah-ZcY"/>
+                            <constraint firstItem="EJW-oW-cKJ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="CxT-k2-iDc"/>
+                            <constraint firstItem="RoB-ED-0KT" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="F7e-dw-cXy"/>
                             <constraint firstItem="lP2-Kd-VSC" firstAttribute="top" secondItem="ok9-QB-bhT" secondAttribute="bottom" constant="43" id="HDq-BO-fcK"/>
                             <constraint firstItem="lP2-Kd-VSC" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="LlC-Ls-AEv"/>
                             <constraint firstItem="ok9-QB-bhT" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="OGE-fE-ulF"/>
+                            <constraint firstItem="QKl-xk-RyO" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="We1-dg-xhH"/>
+                            <constraint firstItem="2bw-Bu-XVm" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="ai0-sf-RoX"/>
+                            <constraint firstItem="QKl-xk-RyO" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="79" id="biL-gD-WDV"/>
+                            <constraint firstItem="QKl-xk-RyO" firstAttribute="top" secondItem="RoB-ED-0KT" secondAttribute="bottom" constant="16" id="imx-3r-81T"/>
+                            <constraint firstItem="ok9-QB-bhT" firstAttribute="top" secondItem="QKl-xk-RyO" secondAttribute="bottom" constant="8" id="lmC-1H-FK5"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="DisconnectButton" destination="lP2-Kd-VSC" id="HPd-Es-UUM"/>
                         <outlet property="PublishButton" destination="ok9-QB-bhT" id="HYY-zl-fE3"/>
+                        <outlet property="ReconnectButton" destination="2bw-Bu-XVm" id="8ja-z9-H4q"/>
+                        <outlet property="SubscribeButton" destination="EJW-oW-cKJ" id="csH-jj-ASU"/>
+                        <outlet property="mqttTextView" destination="QKl-xk-RyO" id="Iop-fI-1GH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

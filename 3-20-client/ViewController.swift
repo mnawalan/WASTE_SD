@@ -11,56 +11,62 @@ import UIKit
 import Moscapsule
 
 class ViewController: UIViewController {
+    
+    //MARK: Outlets
     @IBOutlet weak var PublishButton: UIButton!
     
     @IBOutlet weak var DisconnectButton: UIButton!
     
+    @IBOutlet weak var ReconnectButton: UIButton!
+    
+    @IBOutlet weak var SubscribeButton: UIButton!
+    
+    @IBOutlet weak var mqttTextView: UITextView!
+    
+    //MARK: Variables
     var mqttClient: MQTTClient? = nil
+    var subscribed = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        // Note that you must initialize framework only once after launch application
-        // in case that it uses SSL/TLS functions.
+        mqttTextView.text = "waiting..."
         moscapsule_init()
         
-//        let mqttConfig = MQTTConfig(clientId: "server_cert_test", host: "test.mosquitto.org", port: 8883, keepAlive: 60)
-//  
-//        let bundlePath = NSBundle.
-//        
-//        let bundlePath = NSBundle(forClass: self.dynamicType).bundlePath.stringByAppendingPathComponent("cert.bundle")
-//        let certFile = bundlePath.stringByAppendingPathComponent("mosquitto.org.crt")
-//        
-//        mqttConfig.mqttServerCert = MQTTServerCert(cafile: certFile, capath: nil)
-//        
-//        let mqttClient = MQTT.newConnection(mqttConfig)
-        
-        
-        
-        //set MQTT client configuration
+        //MARK: MQTT client configuration
         
         let mqttConfig = MQTTConfig(clientId: "MK_app_1", host: "senior-mqtt.esc.nd.edu", port: 1883, keepAlive: 60)
         
-        // create new Connection
-        mqttClient = MQTT.newConnection(mqttConfig)
         
-        //subscribe and publish
-
-        
+        //MARK: mqtt Callbacks
         
         mqttConfig.onConnectCallback = { returnCode in
             print("\(returnCode.description)")
             print("Connect Callback")
         }
         mqttConfig.onMessageCallback = { mqttMessage in
-            
-            print("MQTT Message received: payload=\(mqttMessage.payloadString)")
-            let receivedMessage = mqttMessage.payloadString!
-            print("from server msg = \(receivedMessage)")
-            
-            let data = receivedMessage.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
-            print("xxxxxxx = \(data)")
+            //            print("in message callback")
+            //
+            //            print("MQTT Message received: payload=\(mqttMessage.payloadString!)")
+            //            let receivedMessage = mqttMessage.payloadString!
+            //
+            //            print("from server msg = \(receivedMessage)")
+            //
+            //            let data = receivedMessage.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
+            //            print("xxxxxxx = \(data)")
+            if mqttMessage.topic == "compToApp" {
+                if let dispString = mqttMessage.payloadString {
+                    dispatch_sync(dispatch_get_main_queue(), {
+                        self.mqttTextView.text = dispString
+                        })
+                    
+                }
+
+                NSLog("MQTT Message received: payload=\(mqttMessage.payloadString)")
+            } else {
+                print("different topic")
+            }
         }
         
         mqttConfig.onPublishCallback = { messageId in
@@ -68,24 +74,38 @@ class ViewController: UIViewController {
             print("published (msg id=\(messageId)))")
         }
         
-        mqttClient?.publishString("hard coded message", topic: "Window1", qos: 1, retain: false)
-        mqttClient?.subscribe("Window1", qos: 1)
-        print("subscribed")
+        // create new Connection
+        mqttClient = MQTT.newConnection(mqttConfig)
+        
+        //subscribe and publish
+        mqttClient?.publishString("SD WASTE APP", topic: "app", qos: 1, retain: false)
+        
+        
+        mqttClient?.subscribe("compToApp", qos: 2) { mosqReturn, messageId in
+            self.subscribed = true
+            NSLog("subscribe completion: mosq_return=\(mosqReturn.rawValue) messageId=\(messageId)")
+        }
+        mqttClient?.awaitRequestCompletion()
+        
 
-  
     }
+    
+    //MARK: UIButtonActions
     
     
     @IBAction func Published(sender: AnyObject) {
-        // publish the user unique ID when user click the button
-        
-        self.mqttClient?.publishString("messageToPublish", topic: "Window1", qos: 1, retain: true)
-        
-    }
+        self.mqttClient?.publishString("publish button", topic: "app", qos: 1, retain: true) }
+    
     @IBAction func ProceedToDisconnect(sender: AnyObject) {
         // disconnect
-        mqttClient?.disconnect()
-    }
+        mqttClient?.disconnect() }
+    
+    @IBAction func ProceedToReconnect(sender: AnyObject) {
+        //reconnnect
+        mqttClient?.reconnect()}
+    
+    @IBAction func ProceedToSubscribe(sender: AnyObject) {
+        mqttClient?.subscribe("compToApp", qos: 2) }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
