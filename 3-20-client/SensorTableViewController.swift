@@ -7,104 +7,160 @@
 //
 
 import UIKit
+import Moscapsule
 
 class SensorTableViewController: UITableViewController {
-    //let transportItems = ["Bus","Helicopter","Truck","Boat","Bicycle","Motorcycle","Plane","Train","Car","Scooter","Caravan"]
+    //MARK: Variables
+    var mqttClient: MQTTClient? = nil
+    var subscribed = false
+    var message = "waiting"
+    
     let transportItems = ["Door", "Window"]
     
     @IBOutlet var sensorTable: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        self.edgesForExtendedLayout = UIRectEdge.top
-//        self.extendedLayoutIncludesOpaqueBars = false
-//        self.automaticallyAdjustsScrollViewInsets = false
+        sensorTable.delegate = self
+        sensorTable.dataSource = self
+        
         self.sensorTable.contentInset.top = 25
         self.sensorTable.scrollIndicatorInsets.top = 25
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        
+        moscapsule_init()
+        //MARK: MQTT client configuration
+        
+        let mqttConfig = MQTTConfig(clientId: "MK_app_1", host: "senior-mqtt.esc.nd.edu", port: 1883, keepAlive: 60)
+        
+        
+        //MARK: mqtt Callbacks
+        
+        mqttConfig.onConnectCallback = { returnCode in
+            print("\(returnCode.description)")
+            print("Connect Callback")
+        }
+        mqttConfig.onMessageCallback = { mqttMessage in
+            
+            if mqttMessage.topic == "compToApp" {
+                if let dispString = mqttMessage.payloadString {
+                    DispatchQueue.main.sync(execute: {
+                        print("IN MESSAGE CALLBACK")
+                        self.message = dispString
+                        self.tableView.reloadData()
+                    })
+                    
+                }
+                
+                NSLog("MQTT Message received: payload=\(mqttMessage.payloadString)")
+                
+            } else {
+                print("different topic")
+            }
+        }
+        mqttConfig.onPublishCallback = { messageId in
+            print("............")
+            print("published (msg id=\(messageId)))")
+        }
+        
+        // create new Connection
+        mqttClient = MQTT.newConnection(mqttConfig)
+        
+        //subscribe and publish
+        mqttClient?.publishString("SD WASTE APP", topic: "app", qos: 1, retain: false)
+        
+        
+        mqttClient?.subscribe("compToApp", qos: 2) { mosqReturn, messageId in
+            self.subscribed = true
+            NSLog("subscribe completion: mosq_return=\(mosqReturn.rawValue) messageId=\(messageId)")
+        }
+        mqttClient?.awaitRequestCompletion()
+        
+        
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
     // MARK: - Table view data source
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return transportItems.count
     }
-
+    
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TransportCell", for: indexPath) as UITableViewCell
-
+        
         // Configure the cell...
-      //  var cell = tableView.dequeueReusableCellWithIdentifier("transportCell") as? UITableViewCell
+        
         
         cell.textLabel?.text = transportItems[indexPath.row]
         
         let imageName = UIImage(named: transportItems[indexPath.row])
         cell.imageView?.image = imageName
+        cell.detailTextLabel?.text = message
         
         return cell
     }
     
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        NSLog("You selected cell number: \(indexPath.row)!")
+      mqttClient?.subscribe("compToApp", qos: 2)
     }
-    */
-
+    
+    
+    
     /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
+     // Override to support conditional editing of the table view.
+     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+     // Return false if you do not want the specified item to be editable.
+     return true
+     }
+     */
+    
     /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
+     // Override to support editing the table view.
+     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+     if editingStyle == .delete {
+     // Delete the row from the data source
+     tableView.deleteRows(at: [indexPath], with: .fade)
+     } else if editingStyle == .insert {
+     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+     }
+     }
+     */
+    
     /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
+     // Override to support rearranging the table view.
+     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
+     
+     }
+     */
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // Override to support conditional rearranging of the table view.
+     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+     // Return false if you do not want the item to be re-orderable.
+     return true
+     }
+     */
+    
+    /*
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }

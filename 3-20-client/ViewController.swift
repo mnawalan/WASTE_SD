@@ -47,7 +47,7 @@ class ViewController: UIViewController {
         // 3. Check the fingerprint
         authenticationContext.evaluatePolicy(
             .deviceOwnerAuthenticationWithBiometrics,
-            localizedReason: "Only awesome people are allowed",
+            localizedReason: "Login to View System",
             reply: { [unowned self] (success, error) -> Void in
                 
                 if( success ) {
@@ -181,15 +181,7 @@ class ViewController: UIViewController {
             print("Connect Callback")
         }
         mqttConfig.onMessageCallback = { mqttMessage in
-            //            print("in message callback")
-            //
-            //            print("MQTT Message received: payload=\(mqttMessage.payloadString!)")
-            //            let receivedMessage = mqttMessage.payloadString!
-            //
-            //            print("from server msg = \(receivedMessage)")
-            //
-            //            let data = receivedMessage.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
-            //            print("xxxxxxx = \(data)")
+    
             if mqttMessage.topic == "compToApp" {
                 if let dispString = mqttMessage.payloadString {
                     DispatchQueue.main.sync(execute: {
@@ -241,11 +233,7 @@ class ViewController: UIViewController {
     
     @IBAction func ProceedToSubscribe(_ sender: AnyObject) {
         mqttClient?.subscribe("compToApp", qos: 2) }
-    
-    //    @IBAction func addNewSensor(_ sender: Any) {
-    //        let storyboard: UIStoryboard = UIStoryboard(name: "AddNewSensor", bundle: nil)
-    //        let vc = storyboard.instantiateViewController(withIdentifier: "AddSensor") as UIViewController
-    //        self.show(vc, sender: self)}
+
     
     @IBAction func unwindToMain(segue: UIStoryboardSegue) {
         
