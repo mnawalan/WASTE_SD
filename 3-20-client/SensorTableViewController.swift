@@ -10,6 +10,7 @@ import UIKit
 import Moscapsule
 
 class SensorTableViewController: UITableViewController {
+    
     //MARK: Variables
     var mqttClient: MQTTClient? = nil
     var subscribed = false
@@ -21,6 +22,7 @@ class SensorTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         sensorTable.delegate = self
         sensorTable.dataSource = self
         
@@ -111,10 +113,10 @@ class SensorTableViewController: UITableViewController {
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        NSLog("You selected cell number: \(indexPath.row)!")
-      mqttClient?.subscribe("compToApp", qos: 2)
-    }
+//    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        NSLog("You selected cell number: \(indexPath.row)!")
+//      mqttClient?.subscribe("compToApp", qos: 2)
+//    }
     
     
     

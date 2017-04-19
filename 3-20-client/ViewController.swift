@@ -102,9 +102,10 @@ class ViewController: UIViewController {
 
 
     func navigateToAuthenticatedViewController(){
+        print("NAVIGATING")
         
         if let loggedInVC = storyboard?.instantiateViewController(withIdentifier: "SensorViewController") {
-            
+          
             DispatchQueue.main.async { () -> Void in
                 
                 self.navigationController?.pushViewController(loggedInVC, animated: true)
@@ -159,60 +160,60 @@ class ViewController: UIViewController {
     }
 
         //MARK: Variables
-    var mqttClient: MQTTClient? = nil
-    var subscribed = false
+//    var mqttClient: MQTTClient? = nil
+//    var subscribed = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        
-        mqttTextView.text = "waiting..."
-        moscapsule_init()
-        
-        //MARK: MQTT client configuration
-        
-        let mqttConfig = MQTTConfig(clientId: "MK_app_1", host: "senior-mqtt.esc.nd.edu", port: 1883, keepAlive: 60)
-        
-        
-        //MARK: mqtt Callbacks
-        
-        mqttConfig.onConnectCallback = { returnCode in
-            print("\(returnCode.description)")
-            print("Connect Callback")
-        }
-        mqttConfig.onMessageCallback = { mqttMessage in
-    
-            if mqttMessage.topic == "compToApp" {
-                if let dispString = mqttMessage.payloadString {
-                    DispatchQueue.main.sync(execute: {
-                        self.mqttTextView.text = dispString
-                    })
-                    
-                }
-                
-                NSLog("MQTT Message received: payload=\(mqttMessage.payloadString)")
-            } else {
-                print("different topic")
-            }
-        }
-        
-        mqttConfig.onPublishCallback = { messageId in
-            print("............")
-            print("published (msg id=\(messageId)))")
-        }
-        
-        // create new Connection
-        mqttClient = MQTT.newConnection(mqttConfig)
-        
-        //subscribe and publish
-        mqttClient?.publishString("SD WASTE APP", topic: "app", qos: 1, retain: false)
-        
-        
-        mqttClient?.subscribe("compToApp", qos: 2) { mosqReturn, messageId in
-            self.subscribed = true
-            NSLog("subscribe completion: mosq_return=\(mosqReturn.rawValue) messageId=\(messageId)")
-        }
-        mqttClient?.awaitRequestCompletion()
+//        // Do any additional setup after loading the view, typically from a nib.
+//        
+//        mqttTextView.text = "waiting..."
+//        moscapsule_init()
+//        
+//        //MARK: MQTT client configuration
+//        
+//        let mqttConfig = MQTTConfig(clientId: "MK_app_1", host: "senior-mqtt.esc.nd.edu", port: 1883, keepAlive: 60)
+//        
+//        
+//        //MARK: mqtt Callbacks
+//        
+//        mqttConfig.onConnectCallback = { returnCode in
+//            print("\(returnCode.description)")
+//            print("Connect Callback")
+//        }
+//        mqttConfig.onMessageCallback = { mqttMessage in
+//    
+//            if mqttMessage.topic == "compToApp" {
+//                if let dispString = mqttMessage.payloadString {
+//                    DispatchQueue.main.sync(execute: {
+//                        self.mqttTextView.text = dispString
+//                    })
+//                    
+//                }
+//                
+//                NSLog("MQTT Message received: payload=\(mqttMessage.payloadString)")
+//            } else {
+//                print("different topic")
+//            }
+//        }
+//        
+//        mqttConfig.onPublishCallback = { messageId in
+//            print("............")
+//            print("published (msg id=\(messageId)))")
+//        }
+//        
+//        // create new Connection
+//        mqttClient = MQTT.newConnection(mqttConfig)
+//        
+//        //subscribe and publish
+//        mqttClient?.publishString("SD WASTE APP", topic: "app", qos: 1, retain: false)
+//        
+//        
+//        mqttClient?.subscribe("compToApp", qos: 2) { mosqReturn, messageId in
+//            self.subscribed = true
+//            NSLog("subscribe completion: mosq_return=\(mosqReturn.rawValue) messageId=\(messageId)")
+//        }
+//        mqttClient?.awaitRequestCompletion()
         
         
     }
@@ -221,18 +222,22 @@ class ViewController: UIViewController {
     
     
     @IBAction func Published(_ sender: AnyObject) {
-        self.mqttClient?.publishString("publish button", topic: "app", qos: 1, retain: true) }
+//        self.mqttClient?.publishString("publish button", topic: "app", qos: 1, retain: true) 
+    }
     
     @IBAction func ProceedToDisconnect(_ sender: AnyObject) {
         // disconnect
-        mqttClient?.disconnect() }
+//        mqttClient?.disconnect()
+    }
     
     @IBAction func ProceedToReconnect(_ sender: AnyObject) {
         //reconnnect
-        mqttClient?.reconnect()}
+//        mqttClient?.reconnect()
+    }
     
     @IBAction func ProceedToSubscribe(_ sender: AnyObject) {
-        mqttClient?.subscribe("compToApp", qos: 2) }
+//        mqttClient?.subscribe("compToApp", qos: 2) 
+    }
 
     
     @IBAction func unwindToMain(segue: UIStoryboardSegue) {
@@ -242,6 +247,13 @@ class ViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "sensors" {
+            if let controller = storyboard?.instantiateViewController(withIdentifier: "SensorViewController") {
+                self.navigationController!.pushViewController(controller, animated: false)}
+        }
     }
     
     

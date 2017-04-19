@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="hGQ-BL-5La">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -12,7 +12,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--W.A.S.T.E-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController storyboardIdentifier="LoginViewController" id="BYZ-38-t0r" customClass="ViewController" customModule="__20_client" customModuleProvider="target" sceneMemberID="viewController">
@@ -25,7 +25,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ok9-QB-bhT">
-                                <rect key="frame" x="162" y="282" width="51" height="36"/>
+                                <rect key="frame" x="162" y="326" width="51" height="36"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="36" id="inQ-vr-FSq"/>
                                 </constraints>
@@ -35,7 +35,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lP2-Kd-VSC">
-                                <rect key="frame" x="148.5" y="361" width="78" height="30"/>
+                                <rect key="frame" x="148.5" y="405" width="78" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="o64-pP-31q"/>
                                 </constraints>
@@ -45,7 +45,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EJW-oW-cKJ">
-                                <rect key="frame" x="152.5" y="323" width="70" height="30"/>
+                                <rect key="frame" x="152.5" y="367" width="70" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="faj-PI-6Xp"/>
                                 </constraints>
@@ -55,7 +55,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Incoming Message: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RoB-ED-0KT">
-                                <rect key="frame" x="111" y="58" width="153" height="21"/>
+                                <rect key="frame" x="111" y="102" width="153" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="153" id="2Ig-aV-XtE"/>
                                     <constraint firstAttribute="height" constant="21" id="uQJ-gp-KXb"/>
@@ -65,7 +65,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="default" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="QKl-xk-RyO">
-                                <rect key="frame" x="67" y="99" width="240" height="175"/>
+                                <rect key="frame" x="67" y="143" width="240" height="175"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="240" id="mbc-vQ-ctd"/>
@@ -75,7 +75,7 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2bw-Bu-XVm">
-                                <rect key="frame" x="150.5" y="399" width="74" height="30"/>
+                                <rect key="frame" x="150.5" y="443" width="74" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="xuN-Oq-f7K"/>
                                 </constraints>
@@ -84,7 +84,7 @@
                                     <action selector="ProceedToReconnect:" destination="BYZ-38-t0r" eventType="touchUpInside" id="khS-dU-mky"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vFX-n6-rXS">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vFX-n6-rXS">
                                 <rect key="frame" x="167" y="604" width="40" height="40"/>
                                 <state key="normal" image="AddSensor"/>
                                 <connections>
@@ -101,7 +101,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aHg-gT-Tuc">
-                                <rect key="frame" x="168" y="429" width="38" height="30"/>
+                                <rect key="frame" x="168" y="473" width="38" height="30"/>
                                 <state key="normal" title="Login"/>
                                 <connections>
                                     <action selector="ProceedToReconnect:" destination="BYZ-38-t0r" eventType="touchUpInside" id="yxb-EV-USg"/>
@@ -116,8 +116,9 @@
                             <constraint firstItem="2bw-Bu-XVm" firstAttribute="top" secondItem="lP2-Kd-VSC" secondAttribute="bottom" constant="8" id="6cE-KA-x3N"/>
                             <constraint firstItem="aHg-gT-Tuc" firstAttribute="top" secondItem="2bw-Bu-XVm" secondAttribute="bottom" id="6lR-4J-HJX"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Rvl-aH-Nzv" secondAttribute="trailing" constant="84" id="EMs-Rk-gjb"/>
-                            <constraint firstItem="Rvl-aH-Nzv" firstAttribute="leading" secondItem="vFX-n6-rXS" secondAttribute="trailing" constant="22" id="HrO-c4-s9C"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="vFX-n6-rXS" secondAttribute="bottom" constant="23" id="HIg-Wf-25p"/>
                             <constraint firstItem="EJW-oW-cKJ" firstAttribute="top" secondItem="ok9-QB-bhT" secondAttribute="bottom" constant="5" id="I1s-EP-moN"/>
+                            <constraint firstItem="Rvl-aH-Nzv" firstAttribute="leading" secondItem="vFX-n6-rXS" secondAttribute="trailing" constant="22" id="J56-UF-JCs"/>
                             <constraint firstItem="QKl-xk-RyO" firstAttribute="top" secondItem="RoB-ED-0KT" secondAttribute="bottom" constant="20" id="Jf0-r3-jqp"/>
                             <constraint firstItem="RoB-ED-0KT" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="38" id="KRR-e7-HeR"/>
                             <constraint firstItem="lP2-Kd-VSC" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="QLW-7L-jOZ"/>
@@ -126,10 +127,12 @@
                             <constraint firstItem="EJW-oW-cKJ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Tzi-X8-ntc"/>
                             <constraint firstItem="RoB-ED-0KT" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="lKh-Dd-Nm0"/>
                             <constraint firstItem="ok9-QB-bhT" firstAttribute="top" secondItem="QKl-xk-RyO" secondAttribute="bottom" constant="8" id="nT1-YM-o7v"/>
+                            <constraint firstItem="vFX-n6-rXS" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="pmV-mH-s2J"/>
                             <constraint firstItem="QKl-xk-RyO" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="xLo-Cy-hQ8"/>
                             <constraint firstItem="lP2-Kd-VSC" firstAttribute="top" secondItem="EJW-oW-cKJ" secondAttribute="bottom" constant="8" id="xzX-m8-8pA"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="W.A.S.T.E" id="2Tq-Ug-x0f"/>
                     <connections>
                         <outlet property="DisconnectButton" destination="lP2-Kd-VSC" id="HPd-Es-UUM"/>
                         <outlet property="PublishButton" destination="ok9-QB-bhT" id="HYY-zl-fE3"/>
@@ -142,12 +145,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="218" y="423"/>
+            <point key="canvasLocation" x="1156" y="422.33883058470769"/>
         </scene>
-        <!--Sensor Table View Controller-->
+        <!--Sensors-->
         <scene sceneID="bvE-Lc-2aw">
             <objects>
-                <tableViewController storyboardIdentifier="SensorsViewController" id="6K2-gP-S8K" customClass="SensorTableViewController" customModule="__20_client" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="SensorViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="6K2-gP-S8K" customClass="SensorTableViewController" customModule="__20_client" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="hM3-FY-rKg">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -183,13 +186,16 @@
                             <outlet property="delegate" destination="6K2-gP-S8K" id="RxN-3y-q18"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="Sensors" id="WPv-eA-1nM">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="tLa-g5-d2d"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="sensorTable" destination="hM3-FY-rKg" id="f4I-pg-g0Y"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wlz-bU-Cch" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1046" y="876"/>
+            <point key="canvasLocation" x="1984.8" y="875.71214392803608"/>
         </scene>
         <!--New Sensor View Controller-->
         <scene sceneID="g4y-gu-E15">
@@ -277,7 +283,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bDE-0S-ppx" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="uIz-D4-Gqp" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1047" y="171"/>
+            <point key="canvasLocation" x="1984.8" y="170.46476761619192"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="COU-8e-fWB">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="hGQ-BL-5La" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="BDI-47-dCI">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="lmh-8e-eOr"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TSm-Ip-WzV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="216.80000000000001" y="422.33883058470769"/>
         </scene>
     </scenes>
     <resources>
