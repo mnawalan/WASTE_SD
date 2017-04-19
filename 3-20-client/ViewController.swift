@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import Moscapsule
+import LocalAuthentication
 
 class ViewController: UIViewController {
     
@@ -23,7 +24,141 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var mqttTextView: UITextView!
     
-    //MARK: Variables
+    @IBOutlet weak var addSensorButton: UIButton!
+    
+    @IBOutlet weak var loginButton: UIButton!
+    
+    @IBAction func loginButtonClicked(_ sender: Any) {
+        
+        // 1. Create a authentication context
+        let authenticationContext = LAContext()
+        
+        
+        var error:NSError?
+        
+        // 2. Check if the device has a fingerprint sensor
+        // If not, show the user an alert view and bail out!
+        guard authenticationContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) else {
+            
+            showAlertViewIfNoBiometricSensorHasBeenDetected()
+            return
+            
+        }
+        // 3. Check the fingerprint
+        authenticationContext.evaluatePolicy(
+            .deviceOwnerAuthenticationWithBiometrics,
+            localizedReason: "Only awesome people are allowed",
+            reply: { [unowned self] (success, error) -> Void in
+                
+                if( success ) {
+                    
+                    // Fingerprint recognized
+                    // Go to view controller
+                    self.navigateToAuthenticatedViewController()
+                    
+                }else {
+                    
+                    // Check if there is an error
+                    if let error = error {
+
+                        
+                        let message = self.errorMessageForLAErrorCode(errorCode: error.code)
+                        self.showAlertViewAfterEvaluatingPolicyWithMessage(message: message)
+                        
+                    }
+                    
+                }
+                
+        })
+
+    }
+
+    func showAlertViewIfNoBiometricSensorHasBeenDetected(){
+        
+        showAlertWithTitle(title: "Error", message: "This device does not have a TouchID sensor.")
+        
+    }
+    
+    func showAlertWithTitle( title:String, message:String ) {
+        
+        let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+        alertVC.addAction(okAction)
+        
+        DispatchQueue.main.async { () -> Void in
+            
+            self.present(alertVC, animated: true, completion: nil)
+            
+        }
+        
+    }
+    
+    func showAlertViewAfterEvaluatingPolicyWithMessage( message:String ){
+        
+        showAlertWithTitle(title: "Error", message: message)
+        
+    }
+
+
+    func navigateToAuthenticatedViewController(){
+        
+        if let loggedInVC = storyboard?.instantiateViewController(withIdentifier: "SensorViewController") {
+            
+            DispatchQueue.main.async { () -> Void in
+                
+                self.navigationController?.pushViewController(loggedInVC, animated: true)
+                
+            }
+            
+        }
+        
+    }
+    
+
+    func errorMessageForLAErrorCode( errorCode:Int ) -> String{
+        
+        var message = ""
+        
+        switch errorCode {
+            
+        case LAError.appCancel.rawValue:
+            message = "Authentication was cancelled by application"
+            
+        case LAError.authenticationFailed.rawValue:
+            message = "The user failed to provide valid credentials"
+            
+        case LAError.invalidContext.rawValue:
+            message = "The context is invalid"
+            
+        case LAError.passcodeNotSet.rawValue:
+            message = "Passcode is not set on the device"
+            
+        case LAError.systemCancel.rawValue:
+            message = "Authentication was cancelled by the system"
+            
+        case LAError.touchIDLockout.rawValue:
+            message = "Too many failed attempts."
+            
+        case LAError.touchIDNotAvailable.rawValue:
+            message = "TouchID is not available on the device"
+            
+        case LAError.userCancel.rawValue:
+            message = "The user did cancel"
+            
+        case LAError.userFallback.rawValue:
+            message = "The user chose to use the fallback"
+            
+        default:
+            message = "Did not find error code on LAError object"
+            
+        }
+        
+        return message
+        
+    }
+
+        //MARK: Variables
     var mqttClient: MQTTClient? = nil
     var subscribed = false
     
@@ -57,12 +192,12 @@ class ViewController: UIViewController {
             //            print("xxxxxxx = \(data)")
             if mqttMessage.topic == "compToApp" {
                 if let dispString = mqttMessage.payloadString {
-                    dispatch_sync(dispatch_get_main_queue(), {
+                    DispatchQueue.main.sync(execute: {
                         self.mqttTextView.text = dispString
-                        })
+                    })
                     
                 }
-
+                
                 NSLog("MQTT Message received: payload=\(mqttMessage.payloadString)")
             } else {
                 print("different topic")
@@ -87,25 +222,34 @@ class ViewController: UIViewController {
         }
         mqttClient?.awaitRequestCompletion()
         
-
+        
     }
     
     //MARK: UIButtonActions
     
     
-    @IBAction func Published(sender: AnyObject) {
+    @IBAction func Published(_ sender: AnyObject) {
         self.mqttClient?.publishString("publish button", topic: "app", qos: 1, retain: true) }
     
-    @IBAction func ProceedToDisconnect(sender: AnyObject) {
+    @IBAction func ProceedToDisconnect(_ sender: AnyObject) {
         // disconnect
         mqttClient?.disconnect() }
     
-    @IBAction func ProceedToReconnect(sender: AnyObject) {
+    @IBAction func ProceedToReconnect(_ sender: AnyObject) {
         //reconnnect
         mqttClient?.reconnect()}
     
-    @IBAction func ProceedToSubscribe(sender: AnyObject) {
+    @IBAction func ProceedToSubscribe(_ sender: AnyObject) {
         mqttClient?.subscribe("compToApp", qos: 2) }
+    
+    //    @IBAction func addNewSensor(_ sender: Any) {
+    //        let storyboard: UIStoryboard = UIStoryboard(name: "AddNewSensor", bundle: nil)
+    //        let vc = storyboard.instantiateViewController(withIdentifier: "AddSensor") as UIViewController
+    //        self.show(vc, sender: self)}
+    
+    @IBAction func unwindToMain(segue: UIStoryboardSegue) {
+        
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -117,6 +261,9 @@ class ViewController: UIViewController {
 
 
 
-
+extension Error {
+    var code: Int { return (self as NSError).code }
+    var domain: String { return (self as NSError).domain }
+}
 
 
