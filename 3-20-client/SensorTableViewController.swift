@@ -94,7 +94,7 @@ class SensorTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return transportItems.count
+        return (transportItems.count + 1)
     }
     
     
@@ -102,21 +102,59 @@ class SensorTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TransportCell", for: indexPath) as UITableViewCell
         
         // Configure the cell...
+        // First figure out how many sections there are
+        let lastSectionIndex = self.tableView!.numberOfSections - 1
         
+        // Then grab the number of rows in the last section
+        let lastRowIndex = self.tableView!.numberOfRows(inSection: lastSectionIndex) - 1
         
-        cell.textLabel?.text = transportItems[indexPath.row]
+        // Now just construct the index path
+        let pathToLastRow = NSIndexPath(row: lastRowIndex, section: lastSectionIndex)
         
-        let imageName = UIImage(named: transportItems[indexPath.row])
-        cell.imageView?.image = imageName
-        cell.detailTextLabel?.text = message
+        if indexPath == pathToLastRow as IndexPath {
+            cell.textLabel?.text = "Add New Sensor"
+            cell.textLabel?.textColor = UIColor.darkGray
+            cell.backgroundColor = UIColor.lightGray
+            cell.imageView?.image = UIImage(named: "#imageLiteral(resourceName: \"AddSensor\")")
+            cell.detailTextLabel?.isHidden = true
+            
+            
+        } else {
+            
+            cell.textLabel?.text = transportItems[indexPath.row]
+            
+            let imageName = UIImage(named: transportItems[indexPath.row])
+            cell.imageView?.image = imageName
+            cell.detailTextLabel?.text = message
+        }
         
         return cell
+        
+        
     }
     
-//    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        NSLog("You selected cell number: \(indexPath.row)!")
-//      mqttClient?.subscribe("compToApp", qos: 2)
-//    }
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        NSLog("You selected cell number: \(indexPath.row)!")
+        // First figure out how many sections there are
+        let lastSectionIndex = self.tableView!.numberOfSections - 1
+        
+        // Then grab the number of rows in the last section
+        let lastRowIndex = self.tableView!.numberOfRows(inSection: lastSectionIndex) - 1
+        
+        // Now just construct the index path
+        let pathToLastRow = NSIndexPath(row: lastRowIndex, section: lastSectionIndex)
+        
+        if indexPath == pathToLastRow as IndexPath {
+            if let controller = storyboard?.instantiateViewController(withIdentifier: "AddSensor") {
+                self.navigationController!.pushViewController(controller, animated: false)
+                let saveButton = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(NewSensorViewController.SaveBarButton(_ :))) // action:#selector(Class.MethodName) for swift 3
+                controller.navigationItem.rightBarButtonItem  = saveButton
+            }
+        }
+        
+    }
+    
+    
     
     
     
@@ -164,5 +202,14 @@ class SensorTableViewController: UITableViewController {
      // Pass the selected object to the new view controller.
      }
      */
-    
+}
+
+extension UIColor {
+    convenience init(red: Int, green: Int, blue: Int) {
+        let newRed = CGFloat(red)/255
+        let newGreen = CGFloat(green)/255
+        let newBlue = CGFloat(blue)/255
+        
+        self.init(red: newRed, green: newGreen, blue: newBlue, alpha: 1.0)
+    }
 }

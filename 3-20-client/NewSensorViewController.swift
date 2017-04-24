@@ -59,6 +59,11 @@ class NewSensorViewController: UIViewController {
     @IBAction func chooseImage(_ sender: Any) {
         
     }
+    
+    func SaveBarButton(_ sender: Any)  {
+       // self.performSegue(withIdentifier: "saveSegue", sender: self)
+        NSLog("sent from tableView")
+    }
 }
 
 
