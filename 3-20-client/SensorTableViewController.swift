@@ -15,8 +15,10 @@ class SensorTableViewController: UITableViewController {
     var mqttClient: MQTTClient? = nil
     var subscribed = false
     var message = "waiting"
-    
-    let transportItems = ["Door", "Window"]
+    var previousLastPath = NSIndexPath()
+  
+    public var mySensors = ["Door", "Window"]
+    public var myImages = [UIImage(named: "Door"), UIImage(named: "Window")]
     
     @IBOutlet var sensorTable: UITableView!
     
@@ -25,6 +27,7 @@ class SensorTableViewController: UITableViewController {
         
         sensorTable.delegate = self
         sensorTable.dataSource = self
+        
         
         self.sensorTable.contentInset.top = 25
         self.sensorTable.scrollIndicatorInsets.top = 25
@@ -94,12 +97,21 @@ class SensorTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return (transportItems.count + 1)
+        return (mySensors.count + 1)
     }
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TransportCell", for: indexPath) as UITableViewCell
+        var cell = tableView.dequeueReusableCell(withIdentifier: "TransportCell", for: indexPath) as? UITableViewCell
+        
+//        var cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as? UITableViewCell
+        if cell == nil {
+            NSLog("NIL CELL PATH IS: ", String(indexPath.row))
+            cell = UITableViewCell(style: .value1, reuseIdentifier: "TransportCell")
+            cell?.detailTextLabel?.text = message
+        }
+
+
         
         // Configure the cell...
         // First figure out how many sections there are
@@ -110,31 +122,34 @@ class SensorTableViewController: UITableViewController {
         
         // Now just construct the index path
         let pathToLastRow = NSIndexPath(row: lastRowIndex, section: lastSectionIndex)
+        let newSensorRow = NSIndexPath(row: lastRowIndex - 1, section: lastSectionIndex)
         
         if indexPath == pathToLastRow as IndexPath {
-            cell.textLabel?.text = "Add New Sensor"
-            cell.textLabel?.textColor = UIColor.darkGray
-            cell.backgroundColor = UIColor.lightGray
-            cell.imageView?.image = UIImage(named: "#imageLiteral(resourceName: \"AddSensor\")")
-            cell.detailTextLabel?.isHidden = true
+            cell?.textLabel?.text = "Add New Sensor"
+            cell?.textLabel?.textColor = UIColor.darkGray
+            cell?.backgroundColor = UIColor.lightGray
+            cell?.imageView?.image = UIImage(named: "#imageLiteral(resourceName: \"AddSensor\")")
+            cell?.detailTextLabel?.isHidden = true
             
             
-        } else {
-            
-            cell.textLabel?.text = transportItems[indexPath.row]
-            
-            let imageName = UIImage(named: transportItems[indexPath.row])
-            cell.imageView?.image = imageName
-            cell.detailTextLabel?.text = message
+        }  else {
+            cell?.detailTextLabel?.isHidden = false
+            cell?.textLabel?.text = mySensors[indexPath.row]
+            cell?.imageView?.image = myImages[indexPath.row]
+            cell?.detailTextLabel?.text = message
+            cell?.backgroundColor = UIColor.white
+            cell?.textLabel?.textColor = UIColor.black
+
         }
         
-        return cell
+        return cell!
         
         
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         NSLog("You selected cell number: \(indexPath.row)!")
+
         // First figure out how many sections there are
         let lastSectionIndex = self.tableView!.numberOfSections - 1
         
@@ -144,14 +159,19 @@ class SensorTableViewController: UITableViewController {
         // Now just construct the index path
         let pathToLastRow = NSIndexPath(row: lastRowIndex, section: lastSectionIndex)
         
+        
         if indexPath == pathToLastRow as IndexPath {
             if let controller = storyboard?.instantiateViewController(withIdentifier: "AddSensor") {
+                self.navigationItem.backBarButtonItem?.title = "Cancel"
                 self.navigationController!.pushViewController(controller, animated: false)
-                let saveButton = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(NewSensorViewController.SaveBarButton(_ :))) // action:#selector(Class.MethodName) for swift 3
-                controller.navigationItem.rightBarButtonItem  = saveButton
+                
+
             }
         }
         
+    }
+    @IBAction func unwindToTableView(segue: UIStoryboardSegue) {
+
     }
     
     

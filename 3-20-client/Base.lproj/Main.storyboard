@@ -88,9 +88,7 @@
                                 <rect key="frame" x="167" y="604" width="40" height="40"/>
                                 <state key="normal" image="AddSensor"/>
                                 <connections>
-                                    <segue destination="hzn-xW-xdQ" kind="popoverPresentation" popoverAnchorView="vFX-n6-rXS" id="qEC-Ag-As1">
-                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
-                                    </segue>
+                                    <segue destination="hzn-xW-xdQ" kind="show" id="HvS-H1-gwq"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rvl-aH-Nzv">
@@ -216,7 +214,7 @@
                                 </constraints>
                                 <state key="normal" title="Choose Image"/>
                                 <connections>
-                                    <action selector="chooseImage:" destination="hzn-xW-xdQ" eventType="touchUpInside" id="Rt4-Oe-7jh"/>
+                                    <action selector="photoFromLibrary:" destination="hzn-xW-xdQ" eventType="touchUpInside" id="SVC-tK-zpm"/>
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="DefaultSensor" translatesAutoresizingMaskIntoConstraints="NO" id="HKB-Gi-u5R">
@@ -231,25 +229,6 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XBc-qq-Rc6">
-                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
-                                <items>
-                                    <navigationItem title="Add Sensor" id="RuO-Pk-mtQ">
-                                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="Kkc-AC-pqm">
-                                            <connections>
-                                                <action selector="CancelButton:" destination="hzn-xW-xdQ" id="Gp7-Qa-3LD"/>
-                                                <segue destination="uIz-D4-Gqp" kind="unwind" identifier="cancelSegue" unwindAction="unwindToMainWithSegue:" id="aI2-u3-RRl"/>
-                                            </connections>
-                                        </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" title="Save" id="RJ2-Ue-Xbp">
-                                            <connections>
-                                                <action selector="SaveButton:" destination="hzn-xW-xdQ" id="keu-x8-pVM"/>
-                                                <segue destination="uIz-D4-Gqp" kind="unwind" identifier="saveSegue" unwindAction="unwindToMainWithSegue:" id="aTB-d7-abv"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="D9W-DE-udB">
                                 <rect key="frame" x="37.5" y="143" width="300" height="30"/>
                                 <nil key="textColor"/>
@@ -259,14 +238,11 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailingMargin" secondItem="XBc-qq-Rc6" secondAttribute="trailing" constant="-16" id="JFY-jb-IJJ"/>
                             <constraint firstItem="vSc-4i-tFt" firstAttribute="centerX" secondItem="cqB-zi-az5" secondAttribute="centerX" id="JIz-go-N3P"/>
-                            <constraint firstItem="XBc-qq-Rc6" firstAttribute="top" secondItem="p4x-YK-DIt" secondAttribute="bottom" id="Kww-sa-8xq"/>
                             <constraint firstItem="TQJ-NK-0aa" firstAttribute="top" secondItem="IxO-ci-MOa" secondAttribute="bottom" constant="97" id="PNz-iz-INy"/>
                             <constraint firstItem="HKB-Gi-u5R" firstAttribute="top" secondItem="D9W-DE-udB" secondAttribute="bottom" constant="74" id="S0L-9j-Gp1"/>
                             <constraint firstItem="D9W-DE-udB" firstAttribute="width" secondItem="cqB-zi-az5" secondAttribute="width" multiplier="0.8" id="UEn-0R-FxX"/>
                             <constraint firstItem="D9W-DE-udB" firstAttribute="top" secondItem="vSc-4i-tFt" secondAttribute="bottom" constant="16" id="VfC-yq-eIb"/>
-                            <constraint firstItem="XBc-qq-Rc6" firstAttribute="leading" secondItem="cqB-zi-az5" secondAttribute="leadingMargin" constant="-16" id="bQ9-Ja-kJM"/>
                             <constraint firstItem="D9W-DE-udB" firstAttribute="centerX" secondItem="cqB-zi-az5" secondAttribute="centerX" id="bXr-Xf-E6s"/>
                             <constraint firstItem="IxO-ci-MOa" firstAttribute="centerX" secondItem="cqB-zi-az5" secondAttribute="centerX" id="bwv-GD-Hkb"/>
                             <constraint firstItem="HKB-Gi-u5R" firstAttribute="width" secondItem="cqB-zi-az5" secondAttribute="width" multiplier="0.4" id="cOp-I6-tPe"/>
@@ -275,9 +251,10 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="ExitButton" destination="Kkc-AC-pqm" id="HfY-7g-VA5"/>
                         <outlet property="ImageButton" destination="IxO-ci-MOa" id="fK8-4t-7X5"/>
-                        <outlet property="SaveButton" destination="RJ2-Ue-Xbp" id="awz-rO-VW4"/>
+                        <outlet property="SensorName" destination="D9W-DE-udB" id="Zan-fa-J6i"/>
+                        <outlet property="imageView" destination="HKB-Gi-u5R" id="bGB-gC-QJe"/>
+                        <segue destination="uIz-D4-Gqp" kind="unwind" identifier="unwindToTableView" unwindAction="unwindToTableViewWithSegue:" id="XnK-Ow-IZD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bDE-0S-ppx" userLabel="First Responder" sceneMemberID="firstResponder"/>
