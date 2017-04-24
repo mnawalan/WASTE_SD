@@ -48,7 +48,7 @@ class NewSensorViewController: UIViewController, UIImagePickerControllerDelegate
         if segue.identifier == "saveSegue"{
             if let vc = segue.destination as? ViewController {
                 vc.mqttTextView.text = "save successful"
-                //vc.colorString = colorLabel.text! }
+               
             }
         }
         
@@ -61,6 +61,7 @@ class NewSensorViewController: UIViewController, UIImagePickerControllerDelegate
                     if let newImage = self.imageView.image {
                         controller.myImages.append(newImage)
                     }
+                    controller.subscribeToTopics()
                     controller.tableView.reloadData()
                 }
                 

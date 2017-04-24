@@ -16,7 +16,8 @@ class SensorTableViewController: UITableViewController {
     var subscribed = false
     var message = "waiting"
     var previousLastPath = NSIndexPath()
-  
+    var messages = [String]()
+    
     public var mySensors = ["Door", "Window"]
     public var myImages = [UIImage(named: "Door"), UIImage(named: "Window")]
     
@@ -45,6 +46,13 @@ class SensorTableViewController: UITableViewController {
             print("Connect Callback")
         }
         mqttConfig.onMessageCallback = { mqttMessage in
+            for sensor in self.mySensors {
+                if mqttMessage.topic == sensor {
+                    let indexOfSensor = self.mySensors.index(of: sensor)
+                    self.messages.insert(mqttMessage.payloadString!, at: indexOfSensor!)
+                    self.tableView.reloadData()
+                }
+            }
             
             if mqttMessage.topic == "compToApp" {
                 if let dispString = mqttMessage.payloadString {
@@ -60,6 +68,7 @@ class SensorTableViewController: UITableViewController {
                 
             } else {
                 print("different topic")
+                NSLog(mqttMessage.topic)
             }
         }
         mqttConfig.onPublishCallback = { messageId in
@@ -79,6 +88,8 @@ class SensorTableViewController: UITableViewController {
             NSLog("subscribe completion: mosq_return=\(mosqReturn.rawValue) messageId=\(messageId)")
         }
         mqttClient?.awaitRequestCompletion()
+        
+        
         
         
     }
@@ -104,14 +115,14 @@ class SensorTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCell(withIdentifier: "TransportCell", for: indexPath) as? UITableViewCell
         
-//        var cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as? UITableViewCell
+        //        var cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as? UITableViewCell
         if cell == nil {
             NSLog("NIL CELL PATH IS: ", String(indexPath.row))
             cell = UITableViewCell(style: .value1, reuseIdentifier: "TransportCell")
             cell?.detailTextLabel?.text = message
         }
-
-
+        
+        
         
         // Configure the cell...
         // First figure out how many sections there are
@@ -136,10 +147,11 @@ class SensorTableViewController: UITableViewController {
             cell?.detailTextLabel?.isHidden = false
             cell?.textLabel?.text = mySensors[indexPath.row]
             cell?.imageView?.image = myImages[indexPath.row]
-            cell?.detailTextLabel?.text = message
+            
+            cell?.detailTextLabel?.text = "..."
             cell?.backgroundColor = UIColor.white
             cell?.textLabel?.textColor = UIColor.black
-
+            
         }
         
         return cell!
@@ -149,7 +161,7 @@ class SensorTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         NSLog("You selected cell number: \(indexPath.row)!")
-
+        
         // First figure out how many sections there are
         let lastSectionIndex = self.tableView!.numberOfSections - 1
         
@@ -165,13 +177,41 @@ class SensorTableViewController: UITableViewController {
                 self.navigationItem.backBarButtonItem?.title = "Cancel"
                 self.navigationController!.pushViewController(controller, animated: false)
                 
-
+                
             }
         }
         
     }
+    
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if (editingStyle == UITableViewCellEditingStyle.delete) {
+            // handle delete (by removing the data from your array and updating the tableview)
+            mySensors.remove(at: indexPath.row)
+            myImages.remove(at: indexPath.row)
+            self.tableView.reloadData()
+            
+            //NEED TO UNSUBSCRIBE FROM TOPIC
+        }
+    }
+    
+    
     @IBAction func unwindToTableView(segue: UIStoryboardSegue) {
-
+        
+    }
+    
+    func subscribeToTopics() {
+        //MARK: subscribe to each topic
+        
+        for object in mySensors {
+            mqttClient?.subscribe(object, qos: 2) { mosqReturn, messageId in
+                self.subscribed = true
+                NSLog("subscribe completion: mosq_return=\(mosqReturn.rawValue) messageId=\(messageId)")
+            }
+        }
     }
     
     
