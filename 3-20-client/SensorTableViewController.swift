@@ -18,13 +18,17 @@ class SensorTableViewController: UITableViewController {
     var previousLastPath = NSIndexPath()
     var messages = [String]()
     
-    public var mySensors = ["Door", "Window"]
+    //public var mySensors = ["Door", "Window"]
+    
+    public var mySensors = [Sensor]()
+    
     public var myImages = [UIImage(named: "Door"), UIImage(named: "Window")]
     
     @IBOutlet var sensorTable: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
         sensorTable.delegate = self
         sensorTable.dataSource = self
@@ -45,32 +49,66 @@ class SensorTableViewController: UITableViewController {
             print("\(returnCode.description)")
             print("Connect Callback")
         }
+        //        mqttConfig.onMessageCallback = { mqttMessage in
+        //            for sensor in self.mySensors {
+        //                if mqttMessage.topic == sensor.name {
+        //                    sensor.status = mqttMessage.payloadString!
+        ////                    let indexOfSensor = self.mySensors.index(of: sensor)
+        ////                    self.messages.insert(mqttMessage.payloadString!, at: indexOfSensor!)
+        ////                    self.tableView.reloadData()
+        //                }
+        //            }
+        //
+        //            if mqttMessage.topic == "compToApp" {
+        //                if let dispString = mqttMessage.payloadString {
+        //                    DispatchQueue.main.sync(execute: {
+        //                        print("IN MESSAGE CALLBACK")
+        //                        self.message = dispString
+        //                        self.tableView.reloadData()
+        //                    })
+        //
+        //                }
+        //
+        //                NSLog("MQTT Message received: payload=\(mqttMessage.payloadString)")
+        //
+        //            } else {
+        //                print("different topic")
+        //                NSLog(mqttMessage.topic)
+        //            }
+        //        }
+        
         mqttConfig.onMessageCallback = { mqttMessage in
-            for sensor in self.mySensors {
-                if mqttMessage.topic == sensor {
-                    let indexOfSensor = self.mySensors.index(of: sensor)
-                    self.messages.insert(mqttMessage.payloadString!, at: indexOfSensor!)
-                    self.tableView.reloadData()
-                }
-            }
+//            let messageTopic = mqttMessage.topic
+//            let filteredArray = self.mySensors.filter() {
+//                if let topic = ($0 as Sensor).name as? String {
+//                    if messageTopic == topic {
+//                        Sensor.status = mqttMessage.payloadString
+//                    }
+//                }
+//            }
+
+            
+//            if mqttMessage.topic == topic {
+//                NSLog("MATCHED TOPIC: payload=\(mqttMessage.payloadString)")
+//                self.status = mqttMessage.payloadString!
+//            }
             
             if mqttMessage.topic == "compToApp" {
                 if let dispString = mqttMessage.payloadString {
-                    DispatchQueue.main.sync(execute: {
-                        print("IN MESSAGE CALLBACK")
-                        self.message = dispString
-                        self.tableView.reloadData()
-                    })
+                    //                    DispatchQueue.main.sync(execute: {
+                    //                        self.mqttTextView.text = dispString
+                    //                    })
+                    NSLog(dispString)
                     
                 }
                 
                 NSLog("MQTT Message received: payload=\(mqttMessage.payloadString)")
-                
             } else {
                 print("different topic")
-                NSLog(mqttMessage.topic)
             }
         }
+        
+        
         mqttConfig.onPublishCallback = { messageId in
             print("............")
             print("published (msg id=\(messageId)))")
@@ -119,7 +157,7 @@ class SensorTableViewController: UITableViewController {
         if cell == nil {
             NSLog("NIL CELL PATH IS: ", String(indexPath.row))
             cell = UITableViewCell(style: .value1, reuseIdentifier: "TransportCell")
-            cell?.detailTextLabel?.text = message
+            cell?.detailTextLabel?.text = mySensors[indexPath.row].status
         }
         
         
@@ -145,10 +183,10 @@ class SensorTableViewController: UITableViewController {
             
         }  else {
             cell?.detailTextLabel?.isHidden = false
-            cell?.textLabel?.text = mySensors[indexPath.row]
+            cell?.textLabel?.text = mySensors[indexPath.row].name
             cell?.imageView?.image = myImages[indexPath.row]
             
-            cell?.detailTextLabel?.text = "..."
+            cell?.detailTextLabel?.text = mySensors[indexPath.row].status
             cell?.backgroundColor = UIColor.white
             cell?.textLabel?.textColor = UIColor.black
             
@@ -207,7 +245,7 @@ class SensorTableViewController: UITableViewController {
         //MARK: subscribe to each topic
         
         for object in mySensors {
-            mqttClient?.subscribe(object, qos: 2) { mosqReturn, messageId in
+            mqttClient?.subscribe(object.name, qos: 2) { mosqReturn, messageId in
                 self.subscribed = true
                 NSLog("subscribe completion: mosq_return=\(mosqReturn.rawValue) messageId=\(messageId)")
             }

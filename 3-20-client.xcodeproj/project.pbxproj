@@ -20,6 +20,7 @@
 		D8B0A6421E9538F9004E774D /* NewSensorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8B0A6401E9538F9004E774D /* NewSensorViewController.swift */; };
 		D8B0A6431E9538F9004E774D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8B0A6411E9538F9004E774D /* ViewController.swift */; };
 		D8B0A6461E95394D004E774D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8B0A6441E95394D004E774D /* Main.storyboard */; };
+		D8F2F88A1EB03E6B006044DE /* Sensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8F2F8891EB03E6B006044DE /* Sensor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +66,7 @@
 		D8B0A6411E9538F9004E774D /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		D8B0A6451E95394D004E774D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D8DA19F1E6738AC55E5D7398 /* Pods_3_20_client.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_3_20_client.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D8F2F8891EB03E6B006044DE /* Sensor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sensor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,6 +149,7 @@
 			children = (
 				D8B0A6441E95394D004E774D /* Main.storyboard */,
 				D8B0A6401E9538F9004E774D /* NewSensorViewController.swift */,
+				D8F2F8891EB03E6B006044DE /* Sensor.swift */,
 				D8B0A6411E9538F9004E774D /* ViewController.swift */,
 				D86B57CB1E801A8E00783997 /* AppDelegate.swift */,
 				D86B57D21E801A8E00783997 /* Assets.xcassets */,
@@ -458,6 +461,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D86B57CC1E801A8E00783997 /* AppDelegate.swift in Sources */,
+				D8F2F88A1EB03E6B006044DE /* Sensor.swift in Sources */,
 				D8B0A63F1E953677004E774D /* SensorTableViewController.swift in Sources */,
 				D8B0A6431E9538F9004E774D /* ViewController.swift in Sources */,
 				D8B0A6421E9538F9004E774D /* NewSensorViewController.swift in Sources */,

@@ -56,7 +56,7 @@ class NewSensorViewController: UIViewController, UIImagePickerControllerDelegate
             if let newSensorName = SensorName.text {
                 let sensorNameNoSpaces = newSensorName.trimmingCharacters(in: .whitespaces)
                 if let controller = segue.destination as? SensorTableViewController {
-                    controller.mySensors.append(sensorNameNoSpaces)
+                    controller.mySensors.append(Sensor(name:sensorNameNoSpaces))
                     
                     if let newImage = self.imageView.image {
                         controller.myImages.append(newImage)
