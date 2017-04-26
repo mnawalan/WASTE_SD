@@ -11,6 +11,8 @@ import UIKit
 class NewSensorViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     let picker = UIImagePickerController()
+    public var currentSensors = [Sensor]()
+   
     
     
     
@@ -96,10 +98,17 @@ class NewSensorViewController: UIViewController, UIImagePickerControllerDelegate
                 "Please enter a sensor name.", preferredStyle: .alert)
             alertController.addAction(UIAlertAction(title: "Dismiss", style: .default,handler: nil))
             self.present(alertController, animated: true, completion: nil)
-        } else if let newSensorName = SensorName.text {
-            performSegue(withIdentifier: "unwindToTableView", sender: self)
+        } else if currentSensors.contains(where: {$0.name == SensorName.text}) {
+            let alertController = UIAlertController(title: "Error", message:
+                "That sensor name already exists.", preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "Dismiss", style: .default,handler: nil))
+            self.present(alertController, animated: true, completion: nil)
+        } else {
+            if let newSensorName = SensorName.text {
+                performSegue(withIdentifier: "unwindToTableView", sender: self)
+            }
+            
         }
-        
     }
     //MARK: - Delegates
     

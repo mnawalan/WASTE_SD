@@ -198,7 +198,7 @@
         <!--New Sensor View Controller-->
         <scene sceneID="g4y-gu-E15">
             <objects>
-                <viewController storyboardIdentifier="AddSensor" id="hzn-xW-xdQ" customClass="NewSensorViewController" customModule="__20_client" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="NewSensorViewController" id="hzn-xW-xdQ" customClass="NewSensorViewController" customModule="__20_client" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="p4x-YK-DIt"/>
                         <viewControllerLayoutGuide type="bottom" id="TQJ-NK-0aa"/>
@@ -218,19 +218,19 @@
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="DefaultSensor" translatesAutoresizingMaskIntoConstraints="NO" id="HKB-Gi-u5R">
-                                <rect key="frame" x="112" y="247" width="150" height="150"/>
+                                <rect key="frame" x="112" y="291" width="150" height="150"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="HKB-Gi-u5R" secondAttribute="height" multiplier="1:1" id="WjC-G2-191"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vSc-4i-tFt">
-                                <rect key="frame" x="165" y="106" width="45" height="21"/>
+                                <rect key="frame" x="165" y="150" width="45" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="D9W-DE-udB">
-                                <rect key="frame" x="37.5" y="143" width="300" height="30"/>
+                                <rect key="frame" x="37.5" y="187" width="300" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>

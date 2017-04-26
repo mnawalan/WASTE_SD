@@ -18,7 +18,6 @@ class SensorTableViewController: UITableViewController {
     var previousLastPath = NSIndexPath()
     var messages = [String]()
     
-    //public var mySensors = ["Door", "Window"]
     
     public var mySensors = [Sensor]()
     
@@ -177,12 +176,11 @@ class SensorTableViewController: UITableViewController {
         
         
         if indexPath == pathToLastRow as IndexPath {
-            if let controller = storyboard?.instantiateViewController(withIdentifier: "AddSensor") {
+             let controller = storyboard?.instantiateViewController(withIdentifier: "NewSensorViewController") as! NewSensorViewController
+                controller.currentSensors = self.mySensors
                 self.navigationItem.backBarButtonItem?.title = "Cancel"
                 self.navigationController!.pushViewController(controller, animated: false)
-                
-                
-            }
+
         }
         
     }
@@ -194,11 +192,12 @@ class SensorTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if (editingStyle == UITableViewCellEditingStyle.delete) {
             // handle delete (by removing the data from your array and updating the tableview)
+            mqttClient?.unsubscribe(mySensors[indexPath.row].name)
             mySensors.remove(at: indexPath.row)
             myImages.remove(at: indexPath.row)
+            
             self.tableView.reloadData()
             
-            //NEED TO UNSUBSCRIBE FROM TOPIC
         }
     }
     
@@ -268,12 +267,4 @@ class SensorTableViewController: UITableViewController {
      */
 }
 
-extension UIColor {
-    convenience init(red: Int, green: Int, blue: Int) {
-        let newRed = CGFloat(red)/255
-        let newGreen = CGFloat(green)/255
-        let newBlue = CGFloat(blue)/255
-        
-        self.init(red: newRed, green: newGreen, blue: newBlue, alpha: 1.0)
-    }
-}
+
