@@ -49,62 +49,26 @@ class SensorTableViewController: UITableViewController {
             print("\(returnCode.description)")
             print("Connect Callback")
         }
-        //        mqttConfig.onMessageCallback = { mqttMessage in
-        //            for sensor in self.mySensors {
-        //                if mqttMessage.topic == sensor.name {
-        //                    sensor.status = mqttMessage.payloadString!
-        ////                    let indexOfSensor = self.mySensors.index(of: sensor)
-        ////                    self.messages.insert(mqttMessage.payloadString!, at: indexOfSensor!)
-        ////                    self.tableView.reloadData()
-        //                }
-        //            }
-        //
-        //            if mqttMessage.topic == "compToApp" {
-        //                if let dispString = mqttMessage.payloadString {
-        //                    DispatchQueue.main.sync(execute: {
-        //                        print("IN MESSAGE CALLBACK")
-        //                        self.message = dispString
-        //                        self.tableView.reloadData()
-        //                    })
-        //
-        //                }
-        //
-        //                NSLog("MQTT Message received: payload=\(mqttMessage.payloadString)")
-        //
-        //            } else {
-        //                print("different topic")
-        //                NSLog(mqttMessage.topic)
-        //            }
-        //        }
-        
-        mqttConfig.onMessageCallback = { mqttMessage in
-//            let messageTopic = mqttMessage.topic
-//            let filteredArray = self.mySensors.filter() {
-//                if let topic = ($0 as Sensor).name as? String {
-//                    if messageTopic == topic {
-//                        Sensor.status = mqttMessage.payloadString
-//                    }
-//                }
-//            }
 
+        mqttConfig.onMessageCallback = { mqttMessage in
             
-//            if mqttMessage.topic == topic {
-//                NSLog("MATCHED TOPIC: payload=\(mqttMessage.payloadString)")
-//                self.status = mqttMessage.payloadString!
-//            }
+            let messageTopic = mqttMessage.topic
             
-            if mqttMessage.topic == "compToApp" {
+            if let index = self.mySensors.index(where: {$0.name == messageTopic}) {
+                
+                print("going to reload table")
+                DispatchQueue.main.sync(execute: {
+                    self.mySensors[index].status = mqttMessage.payloadString!
+                    self.tableView.reloadData()
+                })
+            }
+                           else if mqttMessage.topic == "compToApp" {
                 if let dispString = mqttMessage.payloadString {
-                    //                    DispatchQueue.main.sync(execute: {
-                    //                        self.mqttTextView.text = dispString
-                    //                    })
-                    NSLog(dispString)
-                    
-                }
+                    NSLog(dispString) }
                 
                 NSLog("MQTT Message received: payload=\(mqttMessage.payloadString)")
             } else {
-                print("different topic")
+                print("different topic", mqttMessage.payloadString)
             }
         }
         
@@ -158,6 +122,7 @@ class SensorTableViewController: UITableViewController {
             NSLog("NIL CELL PATH IS: ", String(indexPath.row))
             cell = UITableViewCell(style: .value1, reuseIdentifier: "TransportCell")
             cell?.detailTextLabel?.text = mySensors[indexPath.row].status
+            print("nil cell")
         }
         
         
@@ -189,6 +154,7 @@ class SensorTableViewController: UITableViewController {
             cell?.detailTextLabel?.text = mySensors[indexPath.row].status
             cell?.backgroundColor = UIColor.white
             cell?.textLabel?.textColor = UIColor.black
+            print("normal cell...element status is: ", mySensors[indexPath.row].status)
             
         }
         
