@@ -43,6 +43,17 @@ class SensorTableViewController: UITableViewController {
             UserDefaults.standard.synchronize();
         }
         
+        //MARK: MQTT client configuration
+        
+        let mqttConfig = MQTTConfig(clientId: "MK_app_1", host: "senior-mqtt.esc.nd.edu", port: 1883, keepAlive: 60)
+        
+        
+        //MARK: mqtt Callbacks
+        
+        mqttConfig.onConnectCallback = { returnCode in
+            print("\(returnCode.description)")
+            print("Connect Callback")
+        }
         
         mqttConfig.onMessageCallback = { mqttMessage in
             
