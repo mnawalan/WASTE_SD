@@ -8,6 +8,7 @@
 
 import UIKit
 import Moscapsule
+import os.log
 
 class SensorTableViewController: UITableViewController {
     
@@ -17,6 +18,8 @@ class SensorTableViewController: UITableViewController {
     var message = "waiting"
     var previousLastPath = NSIndexPath()
     var messages = [String]()
+    
+
     
     
     public var mySensors = [Sensor]()
@@ -28,28 +31,22 @@ class SensorTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        let userinfo = UserDefaults.standard.bool(forKey: "firstlaunch1.0")
+        print("USERINFO: ", userinfo.description)
         sensorTable.delegate = self
         sensorTable.dataSource = self
         
-        
-        self.sensorTable.contentInset.top = 25
-        self.sensorTable.scrollIndicatorInsets.top = 25
-        
-        moscapsule_init()
-        //MARK: MQTT client configuration
-        
-        let mqttConfig = MQTTConfig(clientId: "MK_app_1", host: "senior-mqtt.esc.nd.edu", port: 1883, keepAlive: 60)
-        
-        
-        //MARK: mqtt Callbacks
-        
-        mqttConfig.onConnectCallback = { returnCode in
-            print("\(returnCode.description)")
-            print("Connect Callback")
+        if(!UserDefaults.standard.bool(forKey: "firstlaunch1.0")){
+            moscapsule_init()
+            print("Is a first launch")
+            UserDefaults.standard.set(true, forKey: "firstlaunch1.0")
+            UserDefaults.standard.synchronize();
         }
-
+        
+        
         mqttConfig.onMessageCallback = { mqttMessage in
+            
+            print("yo i got it tho")
             
             let messageTopic = mqttMessage.topic
             
@@ -58,10 +55,11 @@ class SensorTableViewController: UITableViewController {
                 print("going to reload table")
                 DispatchQueue.main.sync(execute: {
                     self.mySensors[index].status = mqttMessage.payloadString!
+                    self.saveSensors()
                     self.tableView.reloadData()
                 })
             }
-                           else if mqttMessage.topic == "compToApp" {
+            else if mqttMessage.topic == "compToApp" {
                 if let dispString = mqttMessage.payloadString {
                     NSLog(dispString) }
                 
@@ -83,6 +81,10 @@ class SensorTableViewController: UITableViewController {
         //subscribe and publish
         mqttClient?.publishString("SD WASTE APP", topic: "app", qos: 1, retain: false)
         
+        if let savedSensors = loadSensors() {
+            mySensors += savedSensors
+            subscribeToTopics()
+        }
         
         mqttClient?.subscribe("compToApp", qos: 2) { mosqReturn, messageId in
             self.subscribed = true
@@ -91,8 +93,20 @@ class SensorTableViewController: UITableViewController {
         mqttClient?.awaitRequestCompletion()
         
         
+        //        self.sensorTable.contentInset.top = 10
+        //        self.sensorTable.scrollIndicatorInsets.top = 10
         
         
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        //        if self.isBeingPresented || self.isMovingToParentViewController {
+        //            // Perform an action that will only be done once
+        //
+        //
+        //        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -148,7 +162,7 @@ class SensorTableViewController: UITableViewController {
         }  else {
             cell?.detailTextLabel?.isHidden = false
             cell?.textLabel?.text = mySensors[indexPath.row].name
-            cell?.imageView?.image = myImages[indexPath.row]
+            cell?.imageView?.image = mySensors[indexPath.row].image
             
             cell?.detailTextLabel?.text = mySensors[indexPath.row].status
             cell?.backgroundColor = UIColor.white
@@ -176,11 +190,11 @@ class SensorTableViewController: UITableViewController {
         
         
         if indexPath == pathToLastRow as IndexPath {
-             let controller = storyboard?.instantiateViewController(withIdentifier: "NewSensorViewController") as! NewSensorViewController
-                controller.currentSensors = self.mySensors
-                self.navigationItem.backBarButtonItem?.title = "Cancel"
-                self.navigationController!.pushViewController(controller, animated: false)
-
+            let controller = storyboard?.instantiateViewController(withIdentifier: "NewSensorViewController") as! NewSensorViewController
+            controller.currentSensors = self.mySensors
+            self.navigationItem.backBarButtonItem?.title = "Cancel"
+            self.navigationController!.pushViewController(controller, animated: false)
+            
         }
         
     }
@@ -189,16 +203,45 @@ class SensorTableViewController: UITableViewController {
         return true
     }
     
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if (editingStyle == UITableViewCellEditingStyle.delete) {
+    //    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    //        if (editingStyle == UITableViewCellEditingStyle.delete) {
+    //            // handle delete (by removing the data from your array and updating the tableview)
+    //            mqttClient?.unsubscribe(mySensors[indexPath.row].name)
+    //            mySensors.remove(at: indexPath.row)
+    //            myImages.remove(at: indexPath.row)
+    //            saveSensors()
+    //            self.tableView.reloadData()
+    //
+    //        }
+    //    }
+    
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let editAction = UITableViewRowAction(style: .default, title: "Edit", handler: { (action, indexPath) in
+            let alert = UIAlertController(title: "", message: "Edit sensor name", preferredStyle: .alert)
+            alert.addTextField(configurationHandler: { (textField) in
+                textField.text = self.mySensors[indexPath.row].name
+            })
+            alert.addAction(UIAlertAction(title: "Update", style: .default, handler: { (updateAction) in
+                self.mySensors[indexPath.row].name = alert.textFields!.first!.text!
+                self.saveSensors()
+                self.tableView.reloadRows(at: [indexPath], with: .fade)
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            self.present(alert, animated: false)
+        })
+        
+        let deleteAction = UITableViewRowAction(style: .default, title: "Delete", handler: { (action, indexPath) in
             // handle delete (by removing the data from your array and updating the tableview)
-            mqttClient?.unsubscribe(mySensors[indexPath.row].name)
-            mySensors.remove(at: indexPath.row)
-            myImages.remove(at: indexPath.row)
-            
+            self.mqttClient?.unsubscribe(self.mySensors[indexPath.row].name)
+            self.mySensors.remove(at: indexPath.row)
+            self.myImages.remove(at: indexPath.row)
+            self.saveSensors()
             self.tableView.reloadData()
-            
-        }
+        })
+        
+        editAction.backgroundColor = UIColor.green
+        
+        return [deleteAction, editAction]
     }
     
     
@@ -265,6 +308,18 @@ class SensorTableViewController: UITableViewController {
      // Pass the selected object to the new view controller.
      }
      */
+    func saveSensors() {
+        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(mySensors, toFile: Sensor.ArchiveURL.path)
+        if isSuccessfulSave {
+            os_log("Meals successfully saved.", log: OSLog.default, type: .debug)
+        } else {
+            os_log("Failed to save meals...", log: OSLog.default, type: .error)
+        }
+    }
+    
+    func loadSensors() -> [Sensor]?  {
+        return NSKeyedUnarchiver.unarchiveObject(withFile: Sensor.ArchiveURL.path) as? [Sensor]
+    }
 }
 
 

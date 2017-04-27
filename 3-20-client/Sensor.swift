@@ -7,87 +7,75 @@
 //
 
 import Foundation
+import UIKit
+import os.log
 //import Moscapsule
 
 
 
-class Sensor {
+class Sensor: NSObject, NSCoding {
+    //MARK: Properties
     var name: String
     var status: String
+    var image: UIImage?
     
-//    //MARK: Variables for MQTT
-//    var mqttClient: MQTTClient? = nil
-//    var subscribed = false
+    //MARK: Archiving Paths
+    static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
+    static let ArchiveURL = DocumentsDirectory.appendingPathComponent("sensors")
     
+    //MARK: Types
+    
+    struct PropertyKey {
+        static let name = "name"
+        static let status = "status"
+        static let image = "image"
+    }
+    
+    //MARK: Initialization
+    init(name: String, image: UIImage) {
+        self.name = name
+        self.status = "Waiting"
+        self.image = image
+        
+    }
+    
+    //initialize without an image
     init(name: String) {
         self.name = name
         self.status = "Waiting"
-//        beginMqtt(topic: name)
+        self.image = UIImage(named: "DefaultSensor")!
+        
     }
     
-//    func beginMqtt(topic: String) {
-//        
-//        
-//        moscapsule_init()
-//        //MARK: MQTT client configuration
-//        
-//        let mqttConfig = MQTTConfig(clientId: "MK_app_1", host: "senior-mqtt.esc.nd.edu", port: 1883, keepAlive: 60)
-//        
-//        
-//        //MARK: mqtt Callbacks
-//        
-//        mqttConfig.onConnectCallback = { returnCode in
-//            print("\(returnCode.description)")
-//            print("Connect Callback")
+    //MARK: NSCoding
+    
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(name, forKey: PropertyKey.name)
+        aCoder.encode(status, forKey: PropertyKey.status)
+        aCoder.encode(image, forKey: PropertyKey.image)
+    }
+
+    required convenience init?(coder aDecoder: NSCoder) {
+        
+        // The name is required. If we cannot decode a name string, the initializer should fail.
+        guard let name = aDecoder.decodeObject(forKey: PropertyKey.name) as? String else {
+            os_log("Unable to decode the name for a Sensor object.", log: OSLog.default, type: .debug)
+            return nil
+        }
+        
+//        guard let status = aDecoder.decodeObject(forKey: PropertyKey.status) as? String else {
+//            os_log("Unable to decode the status for a Sensor object.", log: OSLog.default, type: .debug)
+//            return nil
 //        }
-//        mqttConfig.onMessageCallback = { mqttMessage in
-//            
-//            if mqttMessage.topic == topic {
-//                NSLog("MATCHED TOPIC: payload=\(mqttMessage.payloadString)")
-//                self.status = mqttMessage.payloadString!
-//            }
-//            
-//            if mqttMessage.topic == "compToApp" {
-//                if let dispString = mqttMessage.payloadString {
-////                    DispatchQueue.main.sync(execute: {
-////                        self.mqttTextView.text = dispString
-////                    })
-//                    NSLog(dispString)
-//                    
-//                }
-//                
-//                NSLog("MQTT Message received: payload=\(mqttMessage.payloadString)")
-//            } else {
-//                print("different topic")
-//            }
-//        }
-//        
-//        mqttConfig.onPublishCallback = { messageId in
-//            print("............")
-//            print("published (msg id=\(messageId)))")
-//        }
-//        
-//        // create new Connection
-//        mqttClient = MQTT.newConnection(mqttConfig)
-//        
-//        //subscribe and publish
-//        mqttClient?.publishString("SD WASTE APP", topic: "app", qos: 1, retain: false)
-//        
-//        
-//        mqttClient?.subscribe("compToApp", qos: 2) { mosqReturn, messageId in
-//            self.subscribed = true
-//            NSLog("subscribe completion: mosq_return=\(mosqReturn.rawValue) messageId=\(messageId)")
-//        }
-//        
-//        mqttClient?.subscribe(topic, qos: 2) { mosqReturn, messageId in
-//            self.subscribed = true
-//            NSLog("subscribe completion: mosq_return=\(mosqReturn.rawValue) messageId=\(messageId)")
-//        }
-//        mqttClient?.awaitRequestCompletion()
-//        
-//    }
-//    
+        
+        // Because photo is an optional property of Meal, just use conditional cast.
+        let image = aDecoder.decodeObject(forKey: PropertyKey.image) as? UIImage
+        
+        // Must call designated initializer.
+        self.init(name: name, image: image!)
+        
+    }
     
 }
 
- 
+

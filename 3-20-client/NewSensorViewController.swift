@@ -58,14 +58,17 @@ class NewSensorViewController: UIViewController, UIImagePickerControllerDelegate
             if let newSensorName = SensorName.text {
                 let sensorNameNoSpaces = newSensorName.trimmingCharacters(in: .whitespaces)
                 if let controller = segue.destination as? SensorTableViewController {
-                    controller.mySensors.append(Sensor(name:sensorNameNoSpaces))
+                    controller.mySensors.append(Sensor(name:sensorNameNoSpaces, image: self.imageView.image!))
+                    controller.saveSensors()
                     
                     if let newImage = self.imageView.image {
+
                         controller.myImages.append(newImage)
                     }
                     controller.subscribeToTopics()
                     controller.tableView.reloadData()
                 }
+                
                 
             }
         }
@@ -99,7 +102,7 @@ class NewSensorViewController: UIViewController, UIImagePickerControllerDelegate
             alertController.addAction(UIAlertAction(title: "Dismiss", style: .default,handler: nil))
             self.present(alertController, animated: true, completion: nil)
         } else if currentSensors.contains(where: {$0.name == SensorName.text}) {
-            let alertController = UIAlertController(title: "Error", message:
+            let alertController = UIAlertController(title: "Sorry!", message:
                 "That sensor name already exists.", preferredStyle: .alert)
             alertController.addAction(UIAlertAction(title: "Dismiss", style: .default,handler: nil))
             self.present(alertController, animated: true, completion: nil)

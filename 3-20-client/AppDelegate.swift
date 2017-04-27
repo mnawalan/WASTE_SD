@@ -16,6 +16,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        UserDefaults.standard.set(false, forKey: "firstlaunch1.0")
+        //UserDefaults.standard.register(defaults: ["firstlaunch1.0" : false])
+        let userinfo = UserDefaults.standard.bool(forKey: "firstlaunch1.0")
+        print("TRYING TO SET: ", userinfo.description)
         return true
     }
 
