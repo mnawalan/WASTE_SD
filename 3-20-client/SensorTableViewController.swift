@@ -18,8 +18,9 @@ class SensorTableViewController: UITableViewController {
     var message = "waiting"
     var previousLastPath = NSIndexPath()
     var messages = [String]()
+    var selectedIndex : NSInteger = -1 //to store index of selected cell
     
-
+    
     
     
     public var mySensors = [Sensor]()
@@ -51,7 +52,7 @@ class SensorTableViewController: UITableViewController {
         //MARK: mqtt Callbacks
         
         mqttConfig.onConnectCallback = { returnCode in
-            print("\(returnCode.description)")
+            print("\(returnCode.description)") //repeatedly called
             print("Connect Callback")
         }
         
@@ -174,6 +175,12 @@ class SensorTableViewController: UITableViewController {
             cell?.detailTextLabel?.isHidden = false
             cell?.textLabel?.text = mySensors[indexPath.row].name
             cell?.imageView?.image = mySensors[indexPath.row].image
+            cell?.imageView?.contentMode = .scaleAspectFit
+            let newImage = cell?.imageView
+//            let widthConstraint = NSLayoutConstraint(item: newImage!, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: cell?.contentView, attribute: NSLayoutAttribute.width, multiplier: 1, constant: 112)
+//            cell?.imageView?.addConstraint(widthConstraint)
+//           NSLayoutConstraint.activate([widthConstraint])
+//         
             
             cell?.detailTextLabel?.text = mySensors[indexPath.row].status
             cell?.backgroundColor = UIColor.white
@@ -184,8 +191,9 @@ class SensorTableViewController: UITableViewController {
         
         return cell!
         
-        
-    }
+        }
+
+
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         NSLog("You selected cell number: \(indexPath.row)!")
@@ -206,7 +214,12 @@ class SensorTableViewController: UITableViewController {
             self.navigationItem.backBarButtonItem?.title = "Cancel"
             self.navigationController!.pushViewController(controller, animated: false)
             
+        } else if indexPath.row == selectedIndex{
+            selectedIndex = -1
+        }else{
+            selectedIndex = indexPath.row
         }
+        tableView.reloadData()
         
     }
     
@@ -214,21 +227,20 @@ class SensorTableViewController: UITableViewController {
         return true
     }
     
-    //    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-    //        if (editingStyle == UITableViewCellEditingStyle.delete) {
-    //            // handle delete (by removing the data from your array and updating the tableview)
-    //            mqttClient?.unsubscribe(mySensors[indexPath.row].name)
-    //            mySensors.remove(at: indexPath.row)
-    //            myImages.remove(at: indexPath.row)
-    //            saveSensors()
-    //            self.tableView.reloadData()
-    //
-    //        }
-    //    }
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.row == selectedIndex
+        {
+            return 90
+        }else{
+            return 70
+        }
+    }
+
     
+
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let editAction = UITableViewRowAction(style: .default, title: "Edit", handler: { (action, indexPath) in
-            let alert = UIAlertController(title: "", message: "Edit sensor name", preferredStyle: .alert)
+            let alert = UIAlertController(title: "Edit Sensor Name", message: "Physical device must be reconfigured, too.", preferredStyle: .alert)
             alert.addTextField(configurationHandler: { (textField) in
                 textField.text = self.mySensors[indexPath.row].name
             })
@@ -242,12 +254,18 @@ class SensorTableViewController: UITableViewController {
         })
         
         let deleteAction = UITableViewRowAction(style: .default, title: "Delete", handler: { (action, indexPath) in
-            // handle delete (by removing the data from your array and updating the tableview)
-            self.mqttClient?.unsubscribe(self.mySensors[indexPath.row].name)
-            self.mySensors.remove(at: indexPath.row)
-            self.myImages.remove(at: indexPath.row)
-            self.saveSensors()
-            self.tableView.reloadData()
+            let confirm = UIAlertController(title: "", message: "Are you sure you want to delete this sensor?", preferredStyle: .alert)
+            confirm.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (updateAction) in
+                // handle delete (by removing the data from your array and updating the tableview)
+                self.mqttClient?.unsubscribe(self.mySensors[indexPath.row].name)
+                self.mySensors.remove(at: indexPath.row)
+//                self.myImages.remove(at: indexPath.row)
+                self.saveSensors()
+                self.tableView.reloadData()
+            }))
+            confirm.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
+            self.present(confirm, animated: false)
+            
         })
         
         editAction.backgroundColor = UIColor.green
@@ -322,9 +340,9 @@ class SensorTableViewController: UITableViewController {
     func saveSensors() {
         let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(mySensors, toFile: Sensor.ArchiveURL.path)
         if isSuccessfulSave {
-            os_log("Meals successfully saved.", log: OSLog.default, type: .debug)
+            os_log("Sensors successfully saved.", log: OSLog.default, type: .debug)
         } else {
-            os_log("Failed to save meals...", log: OSLog.default, type: .error)
+            os_log("Failed to save sensors...", log: OSLog.default, type: .error)
         }
     }
     
