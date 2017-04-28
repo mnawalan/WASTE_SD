@@ -15,6 +15,7 @@
 		D86B57D61E801A8E00783997 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D86B57D41E801A8E00783997 /* LaunchScreen.storyboard */; };
 		D86B57E11E801A8E00783997 /* __20_clientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86B57E01E801A8E00783997 /* __20_clientTests.swift */; };
 		D86B57EC1E801A8E00783997 /* __20_clientUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86B57EB1E801A8E00783997 /* __20_clientUITests.swift */; };
+		D891277C1EB3BC15004F80D5 /* SensorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D891277B1EB3BC15004F80D5 /* SensorTableViewCell.swift */; };
 		D89CFF301EA6EC920006DBED /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D89CFF2F1EA6EC920006DBED /* LocalAuthentication.framework */; };
 		D8B0A63F1E953677004E774D /* SensorTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8B0A63E1E953677004E774D /* SensorTableViewController.swift */; };
 		D8B0A6421E9538F9004E774D /* NewSensorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8B0A6401E9538F9004E774D /* NewSensorViewController.swift */; };
@@ -60,6 +61,7 @@
 		D86B57E71E801A8E00783997 /* 3-20-clientUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "3-20-clientUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D86B57EB1E801A8E00783997 /* __20_clientUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = __20_clientUITests.swift; sourceTree = "<group>"; };
 		D86B57ED1E801A8E00783997 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D891277B1EB3BC15004F80D5 /* SensorTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorTableViewCell.swift; sourceTree = "<group>"; };
 		D89CFF2F1EA6EC920006DBED /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
 		D8B0A63E1E953677004E774D /* SensorTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorTableViewController.swift; sourceTree = "<group>"; };
 		D8B0A6401E9538F9004E774D /* NewSensorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewSensorViewController.swift; sourceTree = "<group>"; };
@@ -148,6 +150,7 @@
 			isa = PBXGroup;
 			children = (
 				D8B0A6441E95394D004E774D /* Main.storyboard */,
+				D891277B1EB3BC15004F80D5 /* SensorTableViewCell.swift */,
 				D8B0A6401E9538F9004E774D /* NewSensorViewController.swift */,
 				D8F2F8891EB03E6B006044DE /* Sensor.swift */,
 				D8B0A6411E9538F9004E774D /* ViewController.swift */,
@@ -461,6 +464,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D86B57CC1E801A8E00783997 /* AppDelegate.swift in Sources */,
+				D891277C1EB3BC15004F80D5 /* SensorTableViewCell.swift in Sources */,
 				D8F2F88A1EB03E6B006044DE /* Sensor.swift in Sources */,
 				D8B0A63F1E953677004E774D /* SensorTableViewController.swift in Sources */,
 				D8B0A6431E9538F9004E774D /* ViewController.swift in Sources */,

@@ -18,6 +18,7 @@ class Sensor: NSObject, NSCoding {
     var name: String
     var status: String?
     var image: UIImage?
+    var update: String?
     
     //MARK: Archiving Paths
     static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -29,6 +30,7 @@ class Sensor: NSObject, NSCoding {
         static let name = "name"
         static let status = "status"
         static let image = "image"
+        static let update = "update"
     }
     
     //MARK: Initialization
@@ -48,6 +50,7 @@ class Sensor: NSObject, NSCoding {
         self.name = name
         self.status = "Waiting"
         self.image = UIImage(named: "DefaultSensor")!
+//        self.update = "Unknown"
         
     }
     
@@ -57,6 +60,7 @@ class Sensor: NSObject, NSCoding {
         aCoder.encode(name, forKey: PropertyKey.name)
         aCoder.encode(status, forKey: PropertyKey.status)
         aCoder.encode(image, forKey: PropertyKey.image)
+        aCoder.encode(update, forKey: PropertyKey.update)
     }
 
     required convenience init?(coder aDecoder: NSCoder) {
@@ -71,6 +75,10 @@ class Sensor: NSObject, NSCoding {
             os_log("Unable to decode the status for a Sensor object.", log: OSLog.default, type: .debug)
             return nil
         }
+//        guard let update = aDecoder.decodeObject(forKey: PropertyKey.update) as? String else {
+//            os_log("Unable to decode the update time for a Sensor object.", log: OSLog.default, type: .debug)
+//            return nil
+//        }
         
         // Because photo is an optional property of Meal, just use conditional cast.
         let image = aDecoder.decodeObject(forKey: PropertyKey.image) as? UIImage

@@ -21,6 +21,7 @@ class SensorTableViewController: UITableViewController {
     var selectedIndex : NSInteger = -1 //to store index of selected cell
     
     
+    @IBOutlet weak var sensorCell: UITableViewCell!
     
     
     public var mySensors = [Sensor]()
@@ -140,13 +141,13 @@ class SensorTableViewController: UITableViewController {
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCell(withIdentifier: "TransportCell", for: indexPath) as? UITableViewCell
+        var cell = tableView.dequeueReusableCell(withIdentifier: "TransportCell", for: indexPath) as? SensorTableViewCell
         
         //        var cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as? UITableViewCell
         if cell == nil {
             NSLog("NIL CELL PATH IS: ", String(indexPath.row))
-            cell = UITableViewCell(style: .value1, reuseIdentifier: "TransportCell")
-            cell?.detailTextLabel?.text = mySensors[indexPath.row].status
+            cell = SensorTableViewCell(style: .value1, reuseIdentifier: "TransportCell")
+            cell?.statusLabel?.text = mySensors[indexPath.row].status
             print("nil cell")
         }
         
@@ -164,36 +165,42 @@ class SensorTableViewController: UITableViewController {
         let newSensorRow = NSIndexPath(row: lastRowIndex - 1, section: lastSectionIndex)
         
         if indexPath == pathToLastRow as IndexPath {
-            cell?.textLabel?.text = "Add New Sensor"
-            cell?.textLabel?.textColor = UIColor.darkGray
+            print("last cell")
+            //            var addCell = tableView.dequeueReusableCell(withIdentifier: "TransportCell", for: indexPath) as? UITableViewCell
+            //            addCell?.textLabel?.text = "Add New Sensor"
+            //            addCell?.textLabel?.textColor = UIColor.darkGray
+            //            addCell?.backgroundColor = UIColor.lightGray
+            //            addCell?.imageView?.image = UIImage(named: "#imageLiteral(resourceName: \"AddSensor\")")
+            //            addCell?.detailTextLabel?.isHidden = true
+            //            cell?.hideLabels()
+            cell?.statusLabel.isHidden = true
+            cell?.timeLabel.isHidden = true
+            cell?.nameLabel.text = "Add New Sensor"
+            cell?.nameLabel.textColor = UIColor.darkGray
+            cell?.sensorImage?.image = UIImage(named: "AddSensor")
             cell?.backgroundColor = UIColor.lightGray
-            cell?.imageView?.image = UIImage(named: "#imageLiteral(resourceName: \"AddSensor\")")
-            cell?.detailTextLabel?.isHidden = true
             
             
         }  else {
-            cell?.detailTextLabel?.isHidden = false
-            cell?.textLabel?.text = mySensors[indexPath.row].name
-            cell?.imageView?.image = mySensors[indexPath.row].image
-            cell?.imageView?.contentMode = .scaleAspectFit
-            let newImage = cell?.imageView
-//            let widthConstraint = NSLayoutConstraint(item: newImage!, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: cell?.contentView, attribute: NSLayoutAttribute.width, multiplier: 1, constant: 112)
-//            cell?.imageView?.addConstraint(widthConstraint)
-//           NSLayoutConstraint.activate([widthConstraint])
-//         
+            cell?.showLabels()
+            cell?.nameLabel?.text = mySensors[indexPath.row].name
+            cell?.sensorImage?.image = mySensors[indexPath.row].image
+            cell?.sensorImage?.contentMode = .scaleAspectFit
+            let newImage = cell?.sensorImage
             
-            cell?.detailTextLabel?.text = mySensors[indexPath.row].status
+            
+            cell?.statusLabel?.text = mySensors[indexPath.row].status
             cell?.backgroundColor = UIColor.white
-            cell?.textLabel?.textColor = UIColor.black
+            cell?.nameLabel?.textColor = UIColor.black
             print("normal cell...element status is: ", mySensors[indexPath.row].status)
             
         }
         
         return cell!
         
-        }
-
-
+    }
+    
+    
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         NSLog("You selected cell number: \(indexPath.row)!")
@@ -228,16 +235,22 @@ class SensorTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.row == selectedIndex
-        {
-            return 90
-        }else{
-            return 70
+        
+        let numberOfSensors = mySensors.count
+        if (indexPath.row == numberOfSensors - 1) {
+            return 85
+        } else {
+            if indexPath.row == selectedIndex {
+                selectedIndex = -1
+                return 87
+            } else {
+                return 64
+            }
         }
     }
-
     
-
+    
+    
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let editAction = UITableViewRowAction(style: .default, title: "Edit", handler: { (action, indexPath) in
             let alert = UIAlertController(title: "Edit Sensor Name", message: "Physical device must be reconfigured, too.", preferredStyle: .alert)
@@ -259,7 +272,7 @@ class SensorTableViewController: UITableViewController {
                 // handle delete (by removing the data from your array and updating the tableview)
                 self.mqttClient?.unsubscribe(self.mySensors[indexPath.row].name)
                 self.mySensors.remove(at: indexPath.row)
-//                self.myImages.remove(at: indexPath.row)
+                //                self.myImages.remove(at: indexPath.row)
                 self.saveSensors()
                 self.tableView.reloadData()
             }))

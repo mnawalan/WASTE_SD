@@ -154,29 +154,65 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TransportCell" textLabel="U6g-9L-6Zf" detailTextLabel="DbV-a6-4BC" rowHeight="70" style="IBUITableViewCellStyleValue1" id="tXc-HC-rKM">
-                                <rect key="frame" x="0.0" y="28" width="375" height="70"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TransportCell" rowHeight="85" id="tXc-HC-rKM" customClass="SensorTableViewCell" customModule="__20_client" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="375" height="85"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tXc-HC-rKM" id="cPU-Le-cuF">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="69.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="84"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="U6g-9L-6Zf">
-                                            <rect key="frame" x="15" y="25" width="33.5" height="20.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y4m-Xp-SF8" userLabel="StatusLabel">
+                                            <rect key="frame" x="225" y="0.0" width="150" height="84.5"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="150" id="seg-1x-UkI"/>
+                                            </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="DbV-a6-4BC">
-                                            <rect key="frame" x="316" y="25" width="44" height="20.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Jn7-Qa-B71">
+                                            <rect key="frame" x="0.0" y="0.0" width="102" height="67"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="102" id="GoM-d0-3dS"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cfO-CH-iAU" userLabel="TimeLabel">
+                                            <rect key="frame" x="0.0" y="67" width="375" height="17"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k1Z-9a-hiS" userLabel="NameLabel">
+                                            <rect key="frame" x="102" y="32" width="115" height="20.5"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="115" id="oOe-Qa-N2E"/>
+                                            </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="cfO-CH-iAU" firstAttribute="top" secondItem="Jn7-Qa-B71" secondAttribute="bottom" id="1ti-Ig-7wF"/>
+                                        <constraint firstItem="cfO-CH-iAU" firstAttribute="leading" secondItem="cPU-Le-cuF" secondAttribute="leading" id="2PO-5g-Fg9"/>
+                                        <constraint firstItem="k1Z-9a-hiS" firstAttribute="centerY" secondItem="cPU-Le-cuF" secondAttribute="centerY" id="AmV-U7-NFR"/>
+                                        <constraint firstItem="k1Z-9a-hiS" firstAttribute="leading" secondItem="Jn7-Qa-B71" secondAttribute="trailing" id="DNn-xm-VIg"/>
+                                        <constraint firstAttribute="bottom" secondItem="cfO-CH-iAU" secondAttribute="bottom" id="MON-Y9-23i"/>
+                                        <constraint firstItem="y4m-Xp-SF8" firstAttribute="centerY" secondItem="cPU-Le-cuF" secondAttribute="centerY" id="RcL-4q-Pua"/>
+                                        <constraint firstAttribute="trailing" secondItem="y4m-Xp-SF8" secondAttribute="trailing" id="VRg-Nz-QdX"/>
+                                        <constraint firstItem="y4m-Xp-SF8" firstAttribute="top" secondItem="cPU-Le-cuF" secondAttribute="top" id="aLr-aa-4g6"/>
+                                        <constraint firstItem="Jn7-Qa-B71" firstAttribute="leading" secondItem="cPU-Le-cuF" secondAttribute="leading" id="grM-h0-TyO"/>
+                                        <constraint firstAttribute="trailing" secondItem="cfO-CH-iAU" secondAttribute="trailing" id="ocg-q1-XWq"/>
+                                        <constraint firstItem="Jn7-Qa-B71" firstAttribute="top" secondItem="cPU-Le-cuF" secondAttribute="top" id="uUF-e8-wtq"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="nameLabel" destination="k1Z-9a-hiS" id="Ibu-ZE-jxB"/>
+                                    <outlet property="sensorContent" destination="cPU-Le-cuF" id="MMM-yJ-h7B"/>
+                                    <outlet property="sensorImage" destination="Jn7-Qa-B71" id="vNV-Bu-h7G"/>
+                                    <outlet property="statusLabel" destination="y4m-Xp-SF8" id="UgB-cZ-X6c"/>
+                                    <outlet property="timeLabel" destination="cfO-CH-iAU" id="G3K-4H-GbV"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
