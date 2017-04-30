@@ -34,12 +34,17 @@ class Sensor: NSObject, NSCoding {
     }
     
     //MARK: Initialization
-    init(name: String, image: UIImage, status: String?) {
+    init(name: String, image: UIImage, status: String?, update: String?) {
         self.name = name
         if status == nil {
             self.status = "Waiting"
         } else {
             self.status = status
+        }
+        if update == nil {
+            self.update = "Unknown"
+        } else {
+            self.update = update
         }
         self.image = image
         
@@ -50,7 +55,7 @@ class Sensor: NSObject, NSCoding {
         self.name = name
         self.status = "Waiting"
         self.image = UIImage(named: "DefaultSensor")!
-//        self.update = "Unknown"
+       self.update = "Unknown"
         
     }
     
@@ -75,16 +80,16 @@ class Sensor: NSObject, NSCoding {
             os_log("Unable to decode the status for a Sensor object.", log: OSLog.default, type: .debug)
             return nil
         }
-//        guard let update = aDecoder.decodeObject(forKey: PropertyKey.update) as? String else {
-//            os_log("Unable to decode the update time for a Sensor object.", log: OSLog.default, type: .debug)
-//            return nil
-//        }
+        guard let update = aDecoder.decodeObject(forKey: PropertyKey.update) as? String else {
+            os_log("Unable to decode the update time for a Sensor object.", log: OSLog.default, type: .debug)
+            return nil
+        }
         
         // Because photo is an optional property of Meal, just use conditional cast.
         let image = aDecoder.decodeObject(forKey: PropertyKey.image) as? UIImage
         
         // Must call designated initializer.
-        self.init(name: name, image: image!, status: status)
+        self.init(name: name, image: image!, status: status, update: update)
         
     }
     

@@ -19,6 +19,8 @@ class SensorTableViewController: UITableViewController {
     var previousLastPath = NSIndexPath()
     var messages = [String]()
     var selectedIndex : NSInteger = -1 //to store index of selected cell
+    var previousSelected : NSInteger = -1
+    var deselect : Bool = false
     
     
     @IBOutlet weak var sensorCell: UITableViewCell!
@@ -69,6 +71,7 @@ class SensorTableViewController: UITableViewController {
                 print("going to reload table")
                 DispatchQueue.main.sync(execute: {
                     self.mySensors[index].status = mqttMessage.payloadString!
+                    self.mySensors[index].update = self.getTime()
                     self.saveSensors()
                     self.tableView.reloadData()
                 })
@@ -79,7 +82,7 @@ class SensorTableViewController: UITableViewController {
                 
                 NSLog("MQTT Message received: payload=\(mqttMessage.payloadString)")
             } else {
-                print("different topic", mqttMessage.payloadString)
+                NSLog("different topic \(mqttMessage.payloadString)")
             }
         }
         
@@ -106,7 +109,7 @@ class SensorTableViewController: UITableViewController {
         }
         mqttClient?.awaitRequestCompletion()
         
-
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -138,14 +141,12 @@ class SensorTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCell(withIdentifier: "TransportCell", for: indexPath) as? SensorTableViewCell
+        cell?.layoutSubviews()
         if cell == nil {
             NSLog("NIL CELL PATH IS: ", String(indexPath.row))
             cell = SensorTableViewCell(style: .value1, reuseIdentifier: "TransportCell")
             cell?.statusLabel?.text = mySensors[indexPath.row].status
-
         }
-        
-        
         
         // Configure the cell...
         
@@ -154,7 +155,6 @@ class SensorTableViewController: UITableViewController {
             cell?.timeLabel.isHidden = true
             cell?.nameLabel.text = "Add New Sensor"
             cell?.nameLabel.textColor = UIColor.darkGray
-            cell?.sensorImage?.image = UIImage(named: "AddSensor")
             cell?.backgroundColor = UIColor.lightGray
             
             
@@ -162,15 +162,11 @@ class SensorTableViewController: UITableViewController {
             cell?.showLabels()
             cell?.nameLabel?.text = mySensors[indexPath.row].name
             cell?.sensorImage?.image = mySensors[indexPath.row].image
-            cell?.sensorImage?.contentMode = .scaleAspectFit
-            let newImage = cell?.sensorImage
-            
-            
             cell?.statusLabel?.text = mySensors[indexPath.row].status
             cell?.backgroundColor = UIColor.white
             cell?.nameLabel?.textColor = UIColor.black
-            print("normal cell...element status is: ", mySensors[indexPath.row].status)
-            
+            cell?.timeLabel.text = "Last Updated: \(mySensors[indexPath.row].update!)"
+
         }
         
         return cell!
@@ -180,8 +176,9 @@ class SensorTableViewController: UITableViewController {
     
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         NSLog("You selected cell number: \(indexPath.row)!")
-  
+        
         if indexPath.section == 1 {
             let controller = storyboard?.instantiateViewController(withIdentifier: "NewSensorViewController") as! NewSensorViewController
             controller.currentSensors = self.mySensors
@@ -189,13 +186,29 @@ class SensorTableViewController: UITableViewController {
             self.navigationController!.pushViewController(controller, animated: false)
             
         } else{
+             let cell = tableView.cellForRow(at: indexPath) as! SensorTableViewCell
+            cell.timeLabel.isHidden = false
+            
             selectedIndex = indexPath.row
+            if selectedIndex == previousSelected {
+                previousSelected = -1
+                deselect = true
+            } else {
+                previousSelected = selectedIndex
+                deselect = false
+            }
+            
         }
         tableView.beginUpdates()
         tableView.endUpdates()
         
     }
+    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath as IndexPath) as! SensorTableViewCell
+        cell.timeLabel.isHidden = true
+    }
     
+   
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
@@ -204,7 +217,16 @@ class SensorTableViewController: UITableViewController {
         if indexPath.section == 0 {
             if indexPath.row == selectedIndex {
                 selectedIndex = -1
-                return 84
+                if deselect {
+                    deselect = false
+                    let selectedCell = sensorTable.indexPathForSelectedRow
+                    let cell = sensorTable.cellForRow(at: selectedCell!) as! SensorTableViewCell
+                    cell.timeLabel.isHidden = true
+                    
+                    return 65
+                } else {
+                    return 95
+                }
             } else {
                 return 65
             }
@@ -212,6 +234,7 @@ class SensorTableViewController: UITableViewController {
             return 65
         }
     }
+    
     
     
     
@@ -265,55 +288,7 @@ class SensorTableViewController: UITableViewController {
             }
         }
     }
-    
-    
-    
-    
-    
-    /*
-     // Override to support conditional editing of the table view.
-     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the specified item to be editable.
-     return true
-     }
-     */
-    
-    /*
-     // Override to support editing the table view.
-     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-     if editingStyle == .delete {
-     // Delete the row from the data source
-     tableView.deleteRows(at: [indexPath], with: .fade)
-     } else if editingStyle == .insert {
-     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-     }
-     }
-     */
-    
-    /*
-     // Override to support rearranging the table view.
-     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-     
-     }
-     */
-    
-    /*
-     // Override to support conditional rearranging of the table view.
-     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the item to be re-orderable.
-     return true
-     }
-     */
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
+
     func saveSensors() {
         let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(mySensors, toFile: Sensor.ArchiveURL.path)
         if isSuccessfulSave {
@@ -326,6 +301,25 @@ class SensorTableViewController: UITableViewController {
     func loadSensors() -> [Sensor]?  {
         return NSKeyedUnarchiver.unarchiveObject(withFile: Sensor.ArchiveURL.path) as? [Sensor]
     }
+    
+    func getTime() -> String? {
+        let date = NSDate()
+        let calendar = NSCalendar.current
+        let hour = calendar.component(.hour, from: date as Date)
+        let minutes = calendar.component(.minute, from: date as Date)
+        let update = String(hour) + String(minutes)
+        return update
+    }
+}
+
+public extension UITableView {
+    
+    public func deselectSelectedRowAnimated(animated: Bool) {
+        if let indexPath = indexPathForSelectedRow {
+            deselectRow(at: indexPath, animated: animated)
+        }
+    }
+    
 }
 
 

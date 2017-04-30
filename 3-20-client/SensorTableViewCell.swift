@@ -31,11 +31,11 @@ class SensorTableViewCell: UITableViewCell {
     }
     
     
-//    override func layoutSubviews() {
-//        super.layoutSubviews()
-//        self.sensorImage.frame = CGRect(x:0.0,y:0.0,width:80.0,height:40.0)
-//        self.sensorImage.contentMode = .scaleAspectFill
-//    }
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.sensorImage.frame = CGRect(x:0.0,y:0.0,width:80.0,height:40.0)
+        self.sensorImage.contentMode = .scaleAspectFit
+    }
     
     func lastUpdate() {
         self.timeLabel.isHidden = false
