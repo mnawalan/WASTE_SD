@@ -62,15 +62,12 @@ class SensorTableViewController: UITableViewController {
         
         mqttConfig.onMessageCallback = { mqttMessage in
             
-            print("yo i got it tho")
-            
             let messageTopic = mqttMessage.topic
             
             if let index = self.mySensors.index(where: {$0.name == messageTopic}) {
-                
-                print("going to reload table")
                 DispatchQueue.main.sync(execute: {
                     self.mySensors[index].status = mqttMessage.payloadString!
+                    print("FORMAT IS: ", self.getTime())
                     self.mySensors[index].update = self.getTime()
                     self.saveSensors()
                     self.tableView.reloadData()
@@ -177,8 +174,6 @@ class SensorTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        NSLog("You selected cell number: \(indexPath.row)!")
-        
         if indexPath.section == 1 {
             let controller = storyboard?.instantiateViewController(withIdentifier: "NewSensorViewController") as! NewSensorViewController
             controller.currentSensors = self.mySensors
@@ -222,7 +217,6 @@ class SensorTableViewController: UITableViewController {
                     let selectedCell = sensorTable.indexPathForSelectedRow
                     let cell = sensorTable.cellForRow(at: selectedCell!) as! SensorTableViewCell
                     cell.timeLabel.isHidden = true
-                    
                     return 65
                 } else {
                     return 95
@@ -303,12 +297,11 @@ class SensorTableViewController: UITableViewController {
     }
     
     func getTime() -> String? {
-        let date = NSDate()
-        let calendar = NSCalendar.current
-        let hour = calendar.component(.hour, from: date as Date)
-        let minutes = calendar.component(.minute, from: date as Date)
-        let update = String(hour) + String(minutes)
-        return update
+        let todaysDate:NSDate = NSDate()
+        let dateFormatter:DateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM-dd hh:mm a"
+        let DateInFormat:String = dateFormatter.string(from: todaysDate as Date)
+        return DateInFormat
     }
 }
 
