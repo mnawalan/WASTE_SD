@@ -38,6 +38,7 @@ class SensorTableViewController: UITableViewController {
         sensorTable.delegate = self
         sensorTable.dataSource = self
         
+        
         if(!UserDefaults.standard.bool(forKey: "firstlaunch1.0")){
             moscapsule_init()
             print("Is a first launch")

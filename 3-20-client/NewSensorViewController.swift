@@ -8,13 +8,15 @@
 
 import UIKit
 
-class NewSensorViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class NewSensorViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
     
     let picker = UIImagePickerController()
     public var currentSensors = [Sensor]()
    
     
     
+    @IBOutlet var newSensorView: UIView!
+   
     
     @IBOutlet weak var imageView: UIImageView!
     
@@ -25,6 +27,7 @@ class NewSensorViewController: UIViewController, UIImagePickerControllerDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         picker.delegate = self
+        SensorName.delegate = self
         let saveButton = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(SaveBarButton(_ :))) // action:#selector(Class.MethodName) for swift 3
         self.navigationItem.rightBarButtonItem  = saveButton
         //        self.navigationController?.navigationItem.backBarButtonItem?.title = "Cancel"
@@ -32,6 +35,7 @@ class NewSensorViewController: UIViewController, UIImagePickerControllerDelegate
         //        self.navigationItem.backBarButtonItem?.title = "Cancel"
         
         // Do any additional setup after loading the view.
+        self.newSensorView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(textFieldShouldReturn)))
     }
     
     override func didReceiveMemoryWarning() {
@@ -72,6 +76,11 @@ class NewSensorViewController: UIViewController, UIImagePickerControllerDelegate
                 
             }
         }
+    }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+//        self.SensorName.resignFirstResponder()
+        self.newSensorView.endEditing(true)
+        return true
     }
     
     

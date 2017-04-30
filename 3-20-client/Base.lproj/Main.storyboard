@@ -158,11 +158,11 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="85"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tXc-HC-rKM" id="cPU-Le-cuF">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="84"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="85"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y4m-Xp-SF8" userLabel="StatusLabel">
-                                            <rect key="frame" x="225" y="0.0" width="150" height="84.5"/>
+                                            <rect key="frame" x="220" y="0.0" width="150" height="84.5"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="150" id="seg-1x-UkI"/>
                                             </constraints>
@@ -199,7 +199,7 @@
                                         <constraint firstItem="k1Z-9a-hiS" firstAttribute="leading" secondItem="Jn7-Qa-B71" secondAttribute="trailing" id="DNn-xm-VIg"/>
                                         <constraint firstAttribute="bottom" secondItem="cfO-CH-iAU" secondAttribute="bottom" id="MON-Y9-23i"/>
                                         <constraint firstItem="y4m-Xp-SF8" firstAttribute="centerY" secondItem="cPU-Le-cuF" secondAttribute="centerY" id="RcL-4q-Pua"/>
-                                        <constraint firstAttribute="trailing" secondItem="y4m-Xp-SF8" secondAttribute="trailing" id="VRg-Nz-QdX"/>
+                                        <constraint firstAttribute="trailing" secondItem="y4m-Xp-SF8" secondAttribute="trailing" constant="5" id="VRg-Nz-QdX"/>
                                         <constraint firstItem="y4m-Xp-SF8" firstAttribute="top" secondItem="cPU-Le-cuF" secondAttribute="top" id="aLr-aa-4g6"/>
                                         <constraint firstItem="Jn7-Qa-B71" firstAttribute="leading" secondItem="cPU-Le-cuF" secondAttribute="leading" id="grM-h0-TyO"/>
                                         <constraint firstAttribute="trailing" secondItem="cfO-CH-iAU" secondAttribute="trailing" id="ocg-q1-XWq"/>
@@ -290,6 +290,7 @@
                         <outlet property="ImageButton" destination="IxO-ci-MOa" id="fK8-4t-7X5"/>
                         <outlet property="SensorName" destination="D9W-DE-udB" id="Zan-fa-J6i"/>
                         <outlet property="imageView" destination="HKB-Gi-u5R" id="bGB-gC-QJe"/>
+                        <outlet property="newSensorView" destination="cqB-zi-az5" id="bFb-NB-ZiX"/>
                         <segue destination="uIz-D4-Gqp" kind="unwind" identifier="unwindToTableView" unwindAction="unwindToTableViewWithSegue:" id="XnK-Ow-IZD"/>
                     </connections>
                 </viewController>
