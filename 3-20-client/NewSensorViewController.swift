@@ -51,12 +51,6 @@ class NewSensorViewController: UIViewController, UIImagePickerControllerDelegate
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "saveSegue"{
-            if let vc = segue.destination as? ViewController {
-                vc.mqttTextView.text = "save successful"
-               
-            }
-        }
         
         if segue.identifier == "unwindToTableView" {
             if let newSensorName = SensorName.text {

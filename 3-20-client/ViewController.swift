@@ -11,22 +11,12 @@ import UIKit
 import Moscapsule
 import LocalAuthentication
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UINavigationControllerDelegate {
     
     let vc = SensorTableViewController()
     
     //MARK: Outlets
-    @IBOutlet weak var PublishButton: UIButton!
-    
-    @IBOutlet weak var DisconnectButton: UIButton!
-    
-    @IBOutlet weak var ReconnectButton: UIButton!
-    
-    @IBOutlet weak var SubscribeButton: UIButton!
-    
-    @IBOutlet weak var mqttTextView: UITextView!
-    
-    @IBOutlet weak var addSensorButton: UIButton!
+
     
     @IBOutlet weak var loginButton: UIButton!
     
@@ -168,30 +158,16 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 //        // Do any additional setup after loading the view, typically from a nib.
+        navigationController?.delegate = self
+        
+        self.navigationController?.setToolbarHidden(true, animated: false)
 
     }
     
     //MARK: UIButtonActions
     
     
-    @IBAction func Published(_ sender: AnyObject) {
-//        self.mqttClient?.publishString("publish button", topic: "app", qos: 1, retain: true) 
-    }
-    
-    @IBAction func ProceedToDisconnect(_ sender: AnyObject) {
-        // disconnect
-//        mqttClient?.disconnect()
-    }
-    
-    @IBAction func ProceedToReconnect(_ sender: AnyObject) {
-        //reconnnect
-//        mqttClient?.reconnect()
-    }
-    
-    @IBAction func ProceedToSubscribe(_ sender: AnyObject) {
-//        mqttClient?.subscribe("compToApp", qos: 2) 
-    }
-
+  
     
     @IBAction func unwindToMain(segue: UIStoryboardSegue) {
         
@@ -206,6 +182,8 @@ class ViewController: UIViewController {
         if segue.identifier == "sensors" {
             if let controller = storyboard?.instantiateViewController(withIdentifier: "SensorViewController") {
                 self.navigationController!.pushViewController(controller, animated: false)}
+            self.navigationItem.backBarButtonItem?.title = "Logout"
+            self.navigationController?.navigationBar.backItem?.title = "Logout"
         }
     }
     

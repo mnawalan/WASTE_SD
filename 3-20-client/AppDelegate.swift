@@ -17,21 +17,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        UserDefaults.standard.set(false, forKey: "firstlaunch1.0")
-        let userinfo = UserDefaults.standard.bool(forKey: "firstlaunch1.0")
+        UserDefaults.standard.set(false, forKey: "connected")
+        UserDefaults.standard.set(false, forKey: "initialized")
+        let userinfo = UserDefaults.standard.bool(forKey: "connected")
         print("TRYING TO SET: ", userinfo.description)
         
         
-        UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
-        if let vc = self.window?.rootViewController as? UIViewController! {
-            let controllers = vc.childViewControllers
-            for viewController in controllers {
-                if let sensorTableController = viewController as? SensorTableViewController {
-                    //call functions in sensor table controller to update in background
-                    sensorTableController.initializeMQTT()
-                }
-            }
-        }
         return true
     }
     
@@ -60,7 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
         }
-
+        
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
@@ -80,12 +71,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
-
+        
     }
     
-
-
-
+    
+    
+    
     
 }
 

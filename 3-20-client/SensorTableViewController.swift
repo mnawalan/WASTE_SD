@@ -22,9 +22,7 @@ class SensorTableViewController: UITableViewController {
     var previousSelected : NSInteger = -1
     var deselect : Bool = false
     var connected : Bool = false
-    //    var mqttConfig : MQTTConfig?
-    //      let messageComposer = MessageComposer()
-    
+    var userinfo = UserDefaults.standard.bool(forKey: "connected")
     let mqttConfig = MQTTConfig(clientId: "MK_app_1", host: "senior-mqtt.esc.nd.edu", port: 1883, keepAlive: 60)
     
     
@@ -42,15 +40,16 @@ class SensorTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        
-        let userinfo = UserDefaults.standard.bool(forKey: "firstlaunch1.0")
-        print("USERINFO: ", userinfo.description)
+        print("USERINFO at viewdidload: ", userinfo.description)
         sensorTable.delegate = self
         sensorTable.dataSource = self
         
+        if !(UserDefaults.standard.bool(forKey: "initialized")) {
+            UserDefaults.standard.set(true, forKey: "initialized")
+             moscapsule_init()
+        }
         
-        moscapsule_init()
+       
         
         
         mqttConfig.onConnectCallback = { returnCode in
@@ -59,11 +58,13 @@ class SensorTableViewController: UITableViewController {
                 print("\(returnCode.description)") //repeatedly called
                 print("Connect Callback")
                 self.connected = true
+                UserDefaults.standard.set(true, forKey: "connected")
             }
             else {
                 // error handling for connection failure
                 print("FAILED!!!")
                 self.connected = false
+                UserDefaults.standard.set(false, forKey: "connected")
             }
             
         }
@@ -74,13 +75,12 @@ class SensorTableViewController: UITableViewController {
             let delegate = UIApplication.shared.delegate as? AppDelegate
             
             if let index = self.mySensors.index(where: {$0.name == messageTopic}) {
+
                 DispatchQueue.main.sync(execute: {
                     self.mySensors[index].status = mqttMessage.payloadString!
                     self.mySensors[index].update = self.getTime()
                     self.saveSensors()
-                    self.tableView.reloadData()
-                    
-                    
+//                    self.tableView.reloadData()
                 })
             }
             else if mqttMessage.topic == "compToApp" {
@@ -91,12 +91,18 @@ class SensorTableViewController: UITableViewController {
             } else {
                 NSLog("different topic \(mqttMessage.payloadString)")
             }
+            DispatchQueue.main.async{
+                self.sensorTable.reloadData()
+                self.sensorTable.reloadSections([0, 1], with: .none)
+            }
         }
         mqttConfig.onDisconnectCallback = { reasonCode in
             if reasonCode == ReasonCode.disconnect_Requested {
                 self.connected = false
+                UserDefaults.standard.set(false, forKey: "connected")
             } else {
                 self.connected = true
+                UserDefaults.standard.set(true, forKey: "connected")
             }
         }
         
@@ -106,12 +112,11 @@ class SensorTableViewController: UITableViewController {
             print("published (msg id=\(messageId)))")
         }
         
-        // create new Connection
-        
-            if !(connected) {
-                mqttClient = MQTT.newConnection(mqttConfig)
-            }
-        
+        // create new Connection only if not already connected
+        if !(UserDefaults.standard.bool(forKey: "connected")) {
+            mqttClient = MQTT.newConnection(mqttConfig)
+        }
+
         
         //subscribe and publish
         mqttClient?.publishString("SD WASTE APP", topic: "app", qos: 1, retain: false)
