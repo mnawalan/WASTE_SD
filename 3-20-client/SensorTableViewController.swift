@@ -21,6 +21,13 @@ class SensorTableViewController: UITableViewController {
     var selectedIndex : NSInteger = -1 //to store index of selected cell
     var previousSelected : NSInteger = -1
     var deselect : Bool = false
+    var connected : Bool = false
+    //    var mqttConfig : MQTTConfig?
+    //      let messageComposer = MessageComposer()
+    
+    let mqttConfig = MQTTConfig(clientId: "MK_app_1", host: "senior-mqtt.esc.nd.edu", port: 1883, keepAlive: 60)
+    
+    
     
     
     @IBOutlet weak var sensorCell: UITableViewCell!
@@ -35,42 +42,45 @@ class SensorTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        
         let userinfo = UserDefaults.standard.bool(forKey: "firstlaunch1.0")
         print("USERINFO: ", userinfo.description)
         sensorTable.delegate = self
         sensorTable.dataSource = self
         
         
-        if(!UserDefaults.standard.bool(forKey: "firstlaunch1.0")){
-            moscapsule_init()
-            print("Is a first launch")
-            UserDefaults.standard.set(true, forKey: "firstlaunch1.0")
-            UserDefaults.standard.synchronize();
-        }
+        moscapsule_init()
         
-        //MARK: MQTT client configuration
-        
-        let mqttConfig = MQTTConfig(clientId: "MK_app_1", host: "senior-mqtt.esc.nd.edu", port: 1883, keepAlive: 60)
-        
-        
-        //MARK: mqtt Callbacks
         
         mqttConfig.onConnectCallback = { returnCode in
-            print("\(returnCode.description)") //repeatedly called
-            print("Connect Callback")
+            if returnCode == ReturnCode.success {
+                // something to do in case of successful connection
+                print("\(returnCode.description)") //repeatedly called
+                print("Connect Callback")
+                self.connected = true
+            }
+            else {
+                // error handling for connection failure
+                print("FAILED!!!")
+                self.connected = false
+            }
+            
         }
         
         mqttConfig.onMessageCallback = { mqttMessage in
             
             let messageTopic = mqttMessage.topic
+            let delegate = UIApplication.shared.delegate as? AppDelegate
             
             if let index = self.mySensors.index(where: {$0.name == messageTopic}) {
                 DispatchQueue.main.sync(execute: {
                     self.mySensors[index].status = mqttMessage.payloadString!
-                    print("FORMAT IS: ", self.getTime())
                     self.mySensors[index].update = self.getTime()
                     self.saveSensors()
                     self.tableView.reloadData()
+                    
+                    
                 })
             }
             else if mqttMessage.topic == "compToApp" {
@@ -82,6 +92,13 @@ class SensorTableViewController: UITableViewController {
                 NSLog("different topic \(mqttMessage.payloadString)")
             }
         }
+        mqttConfig.onDisconnectCallback = { reasonCode in
+            if reasonCode == ReasonCode.disconnect_Requested {
+                self.connected = false
+            } else {
+                self.connected = true
+            }
+        }
         
         
         mqttConfig.onPublishCallback = { messageId in
@@ -90,7 +107,11 @@ class SensorTableViewController: UITableViewController {
         }
         
         // create new Connection
-        mqttClient = MQTT.newConnection(mqttConfig)
+        
+            if !(connected) {
+                mqttClient = MQTT.newConnection(mqttConfig)
+            }
+        
         
         //subscribe and publish
         mqttClient?.publishString("SD WASTE APP", topic: "app", qos: 1, retain: false)
@@ -111,7 +132,12 @@ class SensorTableViewController: UITableViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        //        mqttClient = MQTT.newConnection(mqttConfig)
         
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        //        mqttClient?.disconnect()
     }
     
     override func didReceiveMemoryWarning() {
@@ -163,7 +189,7 @@ class SensorTableViewController: UITableViewController {
             cell?.backgroundColor = UIColor.white
             cell?.nameLabel?.textColor = UIColor.black
             cell?.timeLabel.text = "Last Updated: \(mySensors[indexPath.row].update!)"
-
+            
         }
         
         return cell!
@@ -181,7 +207,7 @@ class SensorTableViewController: UITableViewController {
             self.navigationController!.pushViewController(controller, animated: false)
             
         } else{
-             let cell = tableView.cellForRow(at: indexPath) as! SensorTableViewCell
+            let cell = tableView.cellForRow(at: indexPath) as! SensorTableViewCell
             cell.timeLabel.isHidden = false
             
             selectedIndex = indexPath.row
@@ -203,7 +229,7 @@ class SensorTableViewController: UITableViewController {
         cell.timeLabel.isHidden = true
     }
     
-   
+    
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
@@ -282,7 +308,7 @@ class SensorTableViewController: UITableViewController {
             }
         }
     }
-
+    
     func saveSensors() {
         let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(mySensors, toFile: Sensor.ArchiveURL.path)
         if isSuccessfulSave {
@@ -303,6 +329,16 @@ class SensorTableViewController: UITableViewController {
         let DateInFormat:String = dateFormatter.string(from: todaysDate as Date)
         return DateInFormat
     }
+    
+    func initializeMQTT() {
+        if (!AppDelegate.initialized) {
+            moscapsule_init()
+            AppDelegate.initialized = true;
+        }
+    }
+    
+    
+    
 }
 
 public extension UITableView {
