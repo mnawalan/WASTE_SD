@@ -185,6 +185,7 @@ class SensorTableViewController: UITableViewController {
         // Configure the cell...
         
         if indexPath.section == 1 {
+            cell?.sensorImage.isHidden = true
             cell?.statusLabel.isHidden = true
             cell?.timeLabel.isHidden = true
             cell?.nameLabel.text = "Add New Sensor"
@@ -204,6 +205,7 @@ class SensorTableViewController: UITableViewController {
         }
         
         return cell!
+        
         
     }
     
@@ -242,7 +244,11 @@ class SensorTableViewController: UITableViewController {
     
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
+        if indexPath.section == 0 {
+            return true
+        } else {
+            return false
+        }
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -348,9 +354,9 @@ class SensorTableViewController: UITableViewController {
         }
     }
     func update() {
-         self.tableView.reloadData()
+        self.tableView.reloadData()
     }
-
+    
     
     
     
