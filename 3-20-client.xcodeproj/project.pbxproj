@@ -11,6 +11,9 @@
 		AD7A0053D67641103A917F93 /* Pods_3_20_clientTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FACBF20E0DE3D9F531D4515 /* Pods_3_20_clientTests.framework */; };
 		D4351193037451C441E2378F /* Pods_3_20_clientUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7CF357C8CDB1D6D6ADBE73E /* Pods_3_20_clientUITests.framework */; };
 		D82875FB1EB7F96200DF0306 /* IconTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D82875FA1EB7F96200DF0306 /* IconTableViewCell.swift */; };
+		D84E31761EB8E079001F56F0 /* RawengulkLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = D84E31751EB8E079001F56F0 /* RawengulkLight.otf */; };
+		D84E31781EB8E084001F56F0 /* RawengulkRegular.otf in Resources */ = {isa = PBXBuildFile; fileRef = D84E31771EB8E084001F56F0 /* RawengulkRegular.otf */; };
+		D84E317A1EB8E165001F56F0 /* RawengulkBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = D84E31791EB8E165001F56F0 /* RawengulkBold.otf */; };
 		D86B57CC1E801A8E00783997 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86B57CB1E801A8E00783997 /* AppDelegate.swift */; };
 		D86B57D31E801A8E00783997 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D86B57D21E801A8E00783997 /* Assets.xcassets */; };
 		D86B57D61E801A8E00783997 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D86B57D41E801A8E00783997 /* LaunchScreen.storyboard */; };
@@ -54,6 +57,9 @@
 		A7CF357C8CDB1D6D6ADBE73E /* Pods_3_20_clientUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_3_20_clientUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1B5BA63F5C57645D4FF9B9D /* Pods-3-20-clientTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-3-20-clientTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-3-20-clientTests/Pods-3-20-clientTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D82875FA1EB7F96200DF0306 /* IconTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconTableViewCell.swift; sourceTree = "<group>"; };
+		D84E31751EB8E079001F56F0 /* RawengulkLight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = RawengulkLight.otf; sourceTree = "<group>"; };
+		D84E31771EB8E084001F56F0 /* RawengulkRegular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = RawengulkRegular.otf; sourceTree = "<group>"; };
+		D84E31791EB8E165001F56F0 /* RawengulkBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = RawengulkBold.otf; sourceTree = "<group>"; };
 		D86B57C81E801A8E00783997 /* 3-20-client.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "3-20-client.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D86B57CB1E801A8E00783997 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D86B57D21E801A8E00783997 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -166,7 +172,10 @@
 				D86B57D71E801A8E00783997 /* Info.plist */,
 				D8B0A63E1E953677004E774D /* SensorTableViewController.swift */,
 				D8E75E471EB7BC3500636E03 /* Susanna.otf */,
+				D84E31791EB8E165001F56F0 /* RawengulkBold.otf */,
 				D8E75E451EB7BC2200636E03 /* Jepanten.ttf */,
+				D84E31751EB8E079001F56F0 /* RawengulkLight.otf */,
+				D84E31771EB8E084001F56F0 /* RawengulkRegular.otf */,
 				D82875FA1EB7F96200DF0306 /* IconTableViewCell.swift */,
 			);
 			path = "3-20-client";
@@ -316,10 +325,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				D8E75E481EB7BC3500636E03 /* Susanna.otf in Resources */,
+				D84E317A1EB8E165001F56F0 /* RawengulkBold.otf in Resources */,
+				D84E31761EB8E079001F56F0 /* RawengulkLight.otf in Resources */,
 				D86B57D61E801A8E00783997 /* LaunchScreen.storyboard in Resources */,
 				D8E75E461EB7BC2200636E03 /* Jepanten.ttf in Resources */,
 				D86B57D31E801A8E00783997 /* Assets.xcassets in Resources */,
 				D8B0A6461E95394D004E774D /* Main.storyboard in Resources */,
+				D84E31781EB8E084001F56F0 /* RawengulkRegular.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

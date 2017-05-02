@@ -24,6 +24,8 @@ class SensorTableViewController: UITableViewController {
     var connected : Bool = false
     var userinfo = UserDefaults.standard.bool(forKey: "connected")
     let mqttConfig = MQTTConfig(clientId: "MK_app_1", host: "senior-mqtt.esc.nd.edu", port: 1883, keepAlive: 60)
+    let customBackground = UIColor(red: 201/255, green: 201/255, blue: 201/255, alpha: 1.0)
+
     
     
     
@@ -34,23 +36,23 @@ class SensorTableViewController: UITableViewController {
     public var mySensors = [Sensor]()
     
     
-//    @IBOutlet var sensorTable: UITableView!
+    //    @IBOutlet var sensorTable: UITableView!
     
     
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        sensorTable.delegate = self
-//        sensorTable.dataSource = self
-//        
+
         
         if !(UserDefaults.standard.bool(forKey: "initialized")) {
             UserDefaults.standard.set(true, forKey: "initialized")
-             moscapsule_init()
+            moscapsule_init()
+        }
+        if let navBarFont = UIFont(name: "RawengulkBold", size: 26) {
+            self.navigationController?.navigationBar.titleTextAttributes = [ NSFontAttributeName: navBarFont ]
         }
         
-       
         
         
         mqttConfig.onConnectCallback = { returnCode in
@@ -76,14 +78,14 @@ class SensorTableViewController: UITableViewController {
             let delegate = UIApplication.shared.delegate as? AppDelegate
             
             if let index = self.mySensors.index(where: {$0.name == messageTopic}) {
-
+                
                 DispatchQueue.main.sync(execute: {
                     self.mySensors[index].status = mqttMessage.payloadString!
                     self.mySensors[index].update = self.getTime()
                     self.saveSensors()
-//                    let path = NSIndexPath(row: index - 1, section: 0)
-//                    self.tableView.reloadRows(at: [path as IndexPath], with: .none)
-
+                    //                    let path = NSIndexPath(row: index - 1, section: 0)
+                    //                    self.tableView.reloadRows(at: [path as IndexPath], with: .none)
+                    
                     
                 })
             }
@@ -98,7 +100,7 @@ class SensorTableViewController: UITableViewController {
             DispatchQueue.main.async {
                 self.update()
             }
-
+            
         }
         
         
@@ -122,7 +124,7 @@ class SensorTableViewController: UITableViewController {
         if !(UserDefaults.standard.bool(forKey: "connected")) {
             mqttClient = MQTT.newConnection(mqttConfig)
         }
-
+        
         
         //subscribe and publish
         mqttClient?.publishString("SD WASTE APP", topic: "app", qos: 1, retain: false)
@@ -189,11 +191,14 @@ class SensorTableViewController: UITableViewController {
             cell?.statusLabel.isHidden = true
             cell?.timeLabel.isHidden = true
             cell?.nameLabel.text = "Add New Sensor"
-            cell?.nameLabel.textColor = UIColor.darkGray
-            cell?.backgroundColor = UIColor.lightGray
+            cell?.nameLabel.textColor = UIColor.white
+            cell?.backgroundColor = customBackground
+            cell?.backgroundLabel.isHidden = true
             
             
         }  else {
+            cell?.backgroundLabel.isHidden = false
+            cell?.backgroundColor = customBackground
             cell?.showLabels()
             cell?.nameLabel?.text = mySensors[indexPath.row].name
             cell?.sensorImage?.image = mySensors[indexPath.row].image
