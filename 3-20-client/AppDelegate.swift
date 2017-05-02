@@ -42,15 +42,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-        if let vc = self.window?.rootViewController as? UIViewController! {
-            let controllers = vc.childViewControllers
-            for viewController in controllers {
-                if let sensorTableController = viewController as? SensorTableViewController {
-                    //call functions in sensor table controller to update in background
-                    sensorTableController.initializeMQTT()
-                }
-            }
-        }
+//        if let vc = self.window?.rootViewController as? UIViewController! {
+//            let controllers = vc.childViewControllers
+//            for viewController in controllers {
+//                if let sensorTableController = viewController as? SensorTableViewController {
+//                    //call functions in sensor table controller to update in background
+//                    sensorTableController.initializeMQTT()
+//                }
+//            }
+//        }
         
     }
     

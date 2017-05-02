@@ -174,7 +174,7 @@ class NewSensorViewController: UIViewController, UIImagePickerControllerDelegate
             alertController.addAction(UIAlertAction(title: "Dismiss", style: .default,handler: nil))
             self.present(alertController, animated: true, completion: nil)
         } else {
-            if let newSensorName = SensorName.text {
+            if SensorName.text != nil {
                 performSegue(withIdentifier: "unwindToTableView", sender: self)
             }
             

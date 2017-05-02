@@ -75,7 +75,6 @@ class SensorTableViewController: UITableViewController {
         mqttConfig.onMessageCallback = { mqttMessage in
             
             let messageTopic = mqttMessage.topic
-            let delegate = UIApplication.shared.delegate as? AppDelegate
             
             if let index = self.mySensors.index(where: {$0.name == messageTopic}) {
                 
