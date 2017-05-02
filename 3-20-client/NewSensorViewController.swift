@@ -8,15 +8,21 @@
 
 import UIKit
 
-class NewSensorViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
+class NewSensorViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource {
+    
+    @IBOutlet weak var imageTableView: UITableView!
     
     let picker = UIImagePickerController()
     public var currentSensors = [Sensor]()
-   
+    let presetIcons = [UIImage(named:"Door"), UIImage(named: "Window"), UIImage(named: "DefaultSensor"), UIImage(named: "GarageDoor"), UIImage(named: "Motion")]
+    fileprivate let reuseID = "iconCell"
+    fileprivate let previousCell = -1
+    
+//    @IBOutlet weak var imageCollectionView: UICollectionView!
     
     
     @IBOutlet var newSensorView: UIView!
-   
+    
     
     @IBOutlet weak var imageView: UIImageView!
     
@@ -24,10 +30,20 @@ class NewSensorViewController: UIViewController, UIImagePickerControllerDelegate
     
     @IBOutlet weak var SensorName: UITextField!
     
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         picker.delegate = self
         SensorName.delegate = self
+        
+        imageTableView.delegate = self
+        imageTableView.dataSource = self
+        imageTableView.setContentOffset(CGPoint.zero, animated: true)
+        
+
+        
+        
         let saveButton = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(SaveBarButton(_ :))) // action:#selector(Class.MethodName) for swift 3
         self.navigationItem.rightBarButtonItem  = saveButton
         //        self.navigationController?.navigationItem.backBarButtonItem?.title = "Cancel"
@@ -35,9 +51,59 @@ class NewSensorViewController: UIViewController, UIImagePickerControllerDelegate
         //        self.navigationItem.backBarButtonItem?.title = "Cancel"
         
         // Do any additional setup after loading the view.
-        self.newSensorView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(textFieldShouldReturn)))
+//        self.newSensorView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(textFieldShouldReturn)))
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+
+    }
+    // MARK: - Table view data source
+
+    
+     func numberOfSections(in tableView: UITableView) -> Int {
+        // #warning Incomplete implementation, return the number of sections
+        return 1
+    }
+    
+     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        // #warning Incomplete implementation, return the number of rows
+        return presetIcons.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseID, for: indexPath) as? IconTableViewCell
+        cell?.imageView?.image = presetIcons[indexPath.row]
+        return cell!
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("SELECTED: ", String(indexPath.row))
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseID, for: indexPath) as? IconTableViewCell
+        let selected = cell!.cellSelected
+        print("starting selected state: ", selected.description)
+        if selected {
+            tableView.deselectRow(at: indexPath, animated: false)
+            cell?.cellSelected = false
+        } else {
+            cell?.checkmarkImageView?.isHidden = false
+            cell?.cellSelected = true
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        print("DESELECTED: ", String(indexPath.row))
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseID, for: indexPath) as? IconTableViewCell
+        cell?.checkmarkImageView?.isHidden = true
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -58,11 +124,7 @@ class NewSensorViewController: UIViewController, UIImagePickerControllerDelegate
                 if let controller = segue.destination as? SensorTableViewController {
                     controller.mySensors.append(Sensor(name:sensorNameNoSpaces, image: self.imageView.image!, status: nil, update: nil))
                     controller.saveSensors()
-                    
-                    if let newImage = self.imageView.image {
-
-                        controller.myImages.append(newImage)
-                    }
+  
                     controller.subscribeToTopics()
                     controller.tableView.reloadData()
                 }
@@ -72,7 +134,7 @@ class NewSensorViewController: UIViewController, UIImagePickerControllerDelegate
         }
     }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//        self.SensorName.resignFirstResponder()
+        //        self.SensorName.resignFirstResponder()
         self.newSensorView.endEditing(true)
         return true
     }
@@ -135,6 +197,8 @@ class NewSensorViewController: UIViewController, UIImagePickerControllerDelegate
         dismiss(animated: true, completion: nil)
     }
 }
+
+
 
 
 

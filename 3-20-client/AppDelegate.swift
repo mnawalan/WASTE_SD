@@ -58,22 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
-    // Support for background fetch
-    func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         
-        if let vc = self.window?.rootViewController as? UIViewController! {
-            let controllers = vc.childViewControllers
-            for viewController in controllers {
-                if let sensorTableController = viewController as? SensorTableViewController {
-                    //call functions in sensor table controller to update in background
-                    sensorTableController.initializeMQTT()
-                }
-            }
-        }
-        
-        
-    }
-    
     
     
     

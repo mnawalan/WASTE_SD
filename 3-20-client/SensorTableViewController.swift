@@ -33,16 +33,17 @@ class SensorTableViewController: UITableViewController {
     
     public var mySensors = [Sensor]()
     
-    public var myImages = [UIImage(named: "Door"), UIImage(named: "Window")]
     
-    @IBOutlet var sensorTable: UITableView!
+//    @IBOutlet var sensorTable: UITableView!
+    
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        print("USERINFO at viewdidload: ", userinfo.description)
-        sensorTable.delegate = self
-        sensorTable.dataSource = self
+//        sensorTable.delegate = self
+//        sensorTable.dataSource = self
+//        
         
         if !(UserDefaults.standard.bool(forKey: "initialized")) {
             UserDefaults.standard.set(true, forKey: "initialized")
@@ -80,7 +81,10 @@ class SensorTableViewController: UITableViewController {
                     self.mySensors[index].status = mqttMessage.payloadString!
                     self.mySensors[index].update = self.getTime()
                     self.saveSensors()
-//                    self.tableView.reloadData()
+//                    let path = NSIndexPath(row: index - 1, section: 0)
+//                    self.tableView.reloadRows(at: [path as IndexPath], with: .none)
+
+                    
                 })
             }
             else if mqttMessage.topic == "compToApp" {
@@ -91,11 +95,13 @@ class SensorTableViewController: UITableViewController {
             } else {
                 NSLog("different topic \(mqttMessage.payloadString)")
             }
-            DispatchQueue.main.async{
-                self.sensorTable.reloadData()
-                self.sensorTable.reloadSections([0, 1], with: .none)
+            DispatchQueue.main.async {
+                self.update()
             }
+
         }
+        
+        
         mqttConfig.onDisconnectCallback = { reasonCode in
             if reasonCode == ReasonCode.disconnect_Requested {
                 self.connected = false
@@ -245,8 +251,8 @@ class SensorTableViewController: UITableViewController {
                 selectedIndex = -1
                 if deselect {
                     deselect = false
-                    let selectedCell = sensorTable.indexPathForSelectedRow
-                    let cell = sensorTable.cellForRow(at: selectedCell!) as! SensorTableViewCell
+                    let selectedCell = tableView.indexPathForSelectedRow
+                    let cell = tableView.cellForRow(at: selectedCell!) as! SensorTableViewCell
                     cell.timeLabel.isHidden = true
                     return 65
                 } else {
@@ -341,6 +347,10 @@ class SensorTableViewController: UITableViewController {
             AppDelegate.initialized = true;
         }
     }
+    func update() {
+         self.tableView.reloadData()
+    }
+
     
     
     

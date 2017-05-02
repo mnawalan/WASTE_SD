@@ -10,6 +10,7 @@
 		2D9639526AD2AEF0CFA68B25 /* Pods_3_20_client.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8DA19F1E6738AC55E5D7398 /* Pods_3_20_client.framework */; };
 		AD7A0053D67641103A917F93 /* Pods_3_20_clientTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FACBF20E0DE3D9F531D4515 /* Pods_3_20_clientTests.framework */; };
 		D4351193037451C441E2378F /* Pods_3_20_clientUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7CF357C8CDB1D6D6ADBE73E /* Pods_3_20_clientUITests.framework */; };
+		D82875FB1EB7F96200DF0306 /* IconTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D82875FA1EB7F96200DF0306 /* IconTableViewCell.swift */; };
 		D86B57CC1E801A8E00783997 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86B57CB1E801A8E00783997 /* AppDelegate.swift */; };
 		D86B57D31E801A8E00783997 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D86B57D21E801A8E00783997 /* Assets.xcassets */; };
 		D86B57D61E801A8E00783997 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D86B57D41E801A8E00783997 /* LaunchScreen.storyboard */; };
@@ -21,6 +22,8 @@
 		D8B0A6421E9538F9004E774D /* NewSensorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8B0A6401E9538F9004E774D /* NewSensorViewController.swift */; };
 		D8B0A6431E9538F9004E774D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8B0A6411E9538F9004E774D /* ViewController.swift */; };
 		D8B0A6461E95394D004E774D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8B0A6441E95394D004E774D /* Main.storyboard */; };
+		D8E75E461EB7BC2200636E03 /* Jepanten.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D8E75E451EB7BC2200636E03 /* Jepanten.ttf */; };
+		D8E75E481EB7BC3500636E03 /* Susanna.otf in Resources */ = {isa = PBXBuildFile; fileRef = D8E75E471EB7BC3500636E03 /* Susanna.otf */; };
 		D8F2F88A1EB03E6B006044DE /* Sensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8F2F8891EB03E6B006044DE /* Sensor.swift */; };
 /* End PBXBuildFile section */
 
@@ -50,6 +53,7 @@
 		A43DBEA7FDBE205FE3B1274F /* Pods-3-20-clientTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-3-20-clientTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-3-20-clientTests/Pods-3-20-clientTests.release.xcconfig"; sourceTree = "<group>"; };
 		A7CF357C8CDB1D6D6ADBE73E /* Pods_3_20_clientUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_3_20_clientUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1B5BA63F5C57645D4FF9B9D /* Pods-3-20-clientTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-3-20-clientTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-3-20-clientTests/Pods-3-20-clientTests.debug.xcconfig"; sourceTree = "<group>"; };
+		D82875FA1EB7F96200DF0306 /* IconTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconTableViewCell.swift; sourceTree = "<group>"; };
 		D86B57C81E801A8E00783997 /* 3-20-client.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "3-20-client.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D86B57CB1E801A8E00783997 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D86B57D21E801A8E00783997 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -68,6 +72,8 @@
 		D8B0A6411E9538F9004E774D /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		D8B0A6451E95394D004E774D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D8DA19F1E6738AC55E5D7398 /* Pods_3_20_client.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_3_20_client.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D8E75E451EB7BC2200636E03 /* Jepanten.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Jepanten.ttf; sourceTree = "<group>"; };
+		D8E75E471EB7BC3500636E03 /* Susanna.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Susanna.otf; sourceTree = "<group>"; };
 		D8F2F8891EB03E6B006044DE /* Sensor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sensor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -159,6 +165,9 @@
 				D86B57D41E801A8E00783997 /* LaunchScreen.storyboard */,
 				D86B57D71E801A8E00783997 /* Info.plist */,
 				D8B0A63E1E953677004E774D /* SensorTableViewController.swift */,
+				D8E75E471EB7BC3500636E03 /* Susanna.otf */,
+				D8E75E451EB7BC2200636E03 /* Jepanten.ttf */,
+				D82875FA1EB7F96200DF0306 /* IconTableViewCell.swift */,
 			);
 			path = "3-20-client";
 			sourceTree = "<group>";
@@ -262,7 +271,10 @@
 						LastSwiftMigration = 0820;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
-								enabled = 1;
+								enabled = 0;
+							};
+							com.apple.Push = {
+								enabled = 0;
 							};
 						};
 					};
@@ -303,7 +315,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D8E75E481EB7BC3500636E03 /* Susanna.otf in Resources */,
 				D86B57D61E801A8E00783997 /* LaunchScreen.storyboard in Resources */,
+				D8E75E461EB7BC2200636E03 /* Jepanten.ttf in Resources */,
 				D86B57D31E801A8E00783997 /* Assets.xcassets in Resources */,
 				D8B0A6461E95394D004E774D /* Main.storyboard in Resources */,
 			);
@@ -469,6 +483,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D86B57CC1E801A8E00783997 /* AppDelegate.swift in Sources */,
+				D82875FB1EB7F96200DF0306 /* IconTableViewCell.swift in Sources */,
 				D891277C1EB3BC15004F80D5 /* SensorTableViewCell.swift in Sources */,
 				D8F2F88A1EB03E6B006044DE /* Sensor.swift in Sources */,
 				D8B0A63F1E953677004E774D /* SensorTableViewController.swift in Sources */,
@@ -624,11 +639,14 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "";
 				DEVELOPMENT_TEAM = ACKG337EZF;
 				INFOPLIST_FILE = "3-20-client/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "WASTE.--20-client";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -639,6 +657,8 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "";
 				DEVELOPMENT_TEAM = ACKG337EZF;
 				INFOPLIST_FILE = "3-20-client/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

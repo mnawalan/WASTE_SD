@@ -22,6 +22,11 @@ class SensorTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         self.timeLabel.isHidden = true
+        let customFont = UIFont(name: "Jepanten", size: 17)
+        statusLabel.font = customFont
+        nameLabel.font = customFont
+        timeLabel.font = UIFont(name: "Jepanten", size: 12)
+        
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {

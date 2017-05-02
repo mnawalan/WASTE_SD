@@ -16,7 +16,8 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
     let vc = SensorTableViewController()
     
     //MARK: Outlets
-
+    
+   @IBOutlet weak var backgroundImageView: UIImageView!
     
     @IBOutlet weak var loginButton: UIButton!
     
@@ -52,7 +53,7 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
                     
                     // Check if there is an error
                     if let error = error {
-
+                        
                         
                         let message = self.errorMessageForLAErrorCode(errorCode: error.code)
                         self.showAlertViewAfterEvaluatingPolicyWithMessage(message: message)
@@ -62,9 +63,9 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
                 }
                 
         })
-
+        
     }
-
+    
     func showAlertViewIfNoBiometricSensorHasBeenDetected(){
         
         showAlertWithTitle(title: "Error", message: "This device does not have a TouchID sensor.")
@@ -91,13 +92,13 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
         showAlertWithTitle(title: "Error", message: message)
         
     }
-
-
+    
+    
     func navigateToAuthenticatedViewController(){
         print("NAVIGATING")
         
         if let loggedInVC = storyboard?.instantiateViewController(withIdentifier: "SensorViewController") {
-          
+            
             DispatchQueue.main.async { () -> Void in
                 
                 self.navigationController?.pushViewController(loggedInVC, animated: true)
@@ -108,7 +109,7 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
         
     }
     
-
+    
     func errorMessageForLAErrorCode( errorCode:Int ) -> String{
         
         var message = ""
@@ -150,24 +151,43 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
         return message
         
     }
-
-        //MARK: Variables
-//    var mqttClient: MQTTClient? = nil
-//    var subscribed = false
+    
+    //MARK: Variables
+    //    var mqttClient: MQTTClient? = nil
+    //    var subscribed = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        // Do any additional setup after loading the view, typically from a nib.
-        navigationController?.delegate = self
+        //        // Do any additional setup after loading the view, typically from a nib.
+//        self.navigationController?.isNavigationBarHidden = true
+//        let image = UIImage(named: "doorBackground.jpg")
+//        self.backgroundImageView = UIImageView(frame: CGRect.zero)
+//        self.backgroundImageView.image = image?.alpha(0.5)
+//        self.backgroundImageView.contentMode = .scaleAspectFill
+//        
+//        self.view.addSubview(backgroundImageView)
+    
+//        self.view.backgroundColor = UIColor(patternImage: image!)
+//        self.view.contentMode = .scaleAspectFill
         
-        self.navigationController?.setToolbarHidden(true, animated: false)
-
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.isNavigationBarHidden = true
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        self.navigationController?.isNavigationBarHidden = false
+        self.navigationItem.title = "Logout"
+    }
+    
+    override func viewDidLayoutSubviews() {
+//        self.backgroundImageView.frame = self.view.bounds
     }
     
     //MARK: UIButtonActions
     
     
-  
+    
     
     @IBAction func unwindToMain(segue: UIStoryboardSegue) {
         
@@ -195,6 +215,19 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
 extension Error {
     var code: Int { return (self as NSError).code }
     var domain: String { return (self as NSError).domain }
+}
+
+extension UIImage{
+    
+    func alpha(_ value:CGFloat)->UIImage
+    {
+        UIGraphicsBeginImageContextWithOptions(size, false, scale)
+        draw(at: CGPoint.zero, blendMode: .normal, alpha: value)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return newImage!
+        
+    }
 }
 
 
