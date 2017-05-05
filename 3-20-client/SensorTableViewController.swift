@@ -105,7 +105,7 @@ class SensorTableViewController: UITableViewController {
                 status = "No Motion"
                 
             default:
-                status = mqttMessage.payloadString!                
+                status = mqttMessage.payloadString!
                 
                 
             }
