@@ -33,7 +33,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                             <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aHg-gT-Tuc">
-                                <rect key="frame" x="142.5" y="306.5" width="90" height="54"/>
+                                <rect key="frame" x="140.5" y="309.5" width="94" height="48"/>
                                 <fontDescription key="fontDescription" name="Jepanten" family="Jepanten" pointSize="36"/>
                                 <state key="normal" title="Login">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -44,18 +44,11 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Copyright © 2017 W.A.S.T.E." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uX8-i7-rV2">
-                                <rect key="frame" x="97.5" y="642.5" width="180.5" height="16.5"/>
+                                <rect key="frame" x="90" y="645" width="196" height="14"/>
                                 <fontDescription key="fontDescription" name="Jepanten" family="Jepanten" pointSize="14"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rvl-aH-Nzv">
-                                <rect key="frame" x="164" y="368.5" width="46" height="30"/>
-                                <state key="normal" title="Button"/>
-                                <connections>
-                                    <segue destination="6K2-gP-S8K" kind="show" id="E6P-ze-xR8"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="uX8-i7-rV2" secondAttribute="bottom" constant="8" id="0UH-TC-Fv7"/>
@@ -63,10 +56,8 @@
                             <constraint firstItem="hyW-Uy-hZ6" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="4oA-nX-5Tm"/>
                             <constraint firstItem="uX8-i7-rV2" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="7Ns-JT-QIh"/>
                             <constraint firstItem="hyW-Uy-hZ6" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="9Cl-Nl-xke"/>
-                            <constraint firstItem="Rvl-aH-Nzv" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Eug-z0-JoK"/>
                             <constraint firstAttribute="trailing" secondItem="hyW-Uy-hZ6" secondAttribute="trailing" id="GJ2-KE-Ewe"/>
                             <constraint firstItem="aHg-gT-Tuc" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Qed-FN-ioi"/>
-                            <constraint firstItem="Rvl-aH-Nzv" firstAttribute="top" secondItem="aHg-gT-Tuc" secondAttribute="bottom" constant="7.5" id="R9n-X5-6En"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="hyW-Uy-hZ6" secondAttribute="bottom" id="zyi-rD-x1W"/>
                         </constraints>
                     </view>
@@ -93,7 +84,7 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="85"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tXc-HC-rKM" id="cPU-Le-cuF">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="84.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="84"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cC2-8n-76x">
@@ -168,7 +159,15 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Sensors" id="WPv-eA-1nM">
                         <barButtonItem key="backBarButtonItem" title="Logout" id="tLa-g5-d2d"/>
+                        <barButtonItem key="rightBarButtonItem" image="Settings" id="6RD-KA-EZs">
+                            <connections>
+                                <action selector="settingsPressed:" destination="6K2-gP-S8K" id="EJw-2I-wPO"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="settingsButton" destination="6RD-KA-EZs" id="5be-lr-meh"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wlz-bU-Cch" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -179,7 +178,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="hGQ-BL-5La" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="BDI-47-dCI">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="BDI-47-dCI">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -295,6 +294,7 @@
     </scenes>
     <resources>
         <image name="DefaultSensor" width="512" height="512"/>
+        <image name="Settings" width="20" height="20"/>
         <image name="whiteDoor" width="5200" height="3744"/>
     </resources>
 </document>

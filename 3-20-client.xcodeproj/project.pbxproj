@@ -24,7 +24,7 @@
 		D8B0A63F1E953677004E774D /* SensorTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8B0A63E1E953677004E774D /* SensorTableViewController.swift */; };
 		D8B0A6421E9538F9004E774D /* NewSensorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8B0A6401E9538F9004E774D /* NewSensorViewController.swift */; };
 		D8B0A6431E9538F9004E774D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8B0A6411E9538F9004E774D /* ViewController.swift */; };
-		D8B0A6461E95394D004E774D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8B0A6441E95394D004E774D /* Main.storyboard */; };
+		D8D48C9E1EBBE7C5008AF15F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8B0A6441E95394D004E774D /* Main.storyboard */; };
 		D8E75E461EB7BC2200636E03 /* Jepanten.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D8E75E451EB7BC2200636E03 /* Jepanten.ttf */; };
 		D8E75E481EB7BC3500636E03 /* Susanna.otf in Resources */ = {isa = PBXBuildFile; fileRef = D8E75E471EB7BC3500636E03 /* Susanna.otf */; };
 		D8F2F88A1EB03E6B006044DE /* Sensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8F2F8891EB03E6B006044DE /* Sensor.swift */; };
@@ -324,13 +324,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D8D48C9E1EBBE7C5008AF15F /* Main.storyboard in Resources */,
 				D8E75E481EB7BC3500636E03 /* Susanna.otf in Resources */,
 				D84E317A1EB8E165001F56F0 /* RawengulkBold.otf in Resources */,
 				D84E31761EB8E079001F56F0 /* RawengulkLight.otf in Resources */,
 				D86B57D61E801A8E00783997 /* LaunchScreen.storyboard in Resources */,
 				D8E75E461EB7BC2200636E03 /* Jepanten.ttf in Resources */,
 				D86B57D31E801A8E00783997 /* Assets.xcassets in Resources */,
-				D8B0A6461E95394D004E774D /* Main.storyboard in Resources */,
 				D84E31781EB8E084001F56F0 /* RawengulkRegular.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

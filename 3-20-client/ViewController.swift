@@ -152,23 +152,12 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
         
     }
     
-    //MARK: Variables
-    //    var mqttClient: MQTTClient? = nil
-    //    var subscribed = false
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         //        // Do any additional setup after loading the view, typically from a nib.
-//        self.navigationController?.isNavigationBarHidden = true
-//        let image = UIImage(named: "doorBackground.jpg")
-//        self.backgroundImageView = UIImageView(frame: CGRect.zero)
-//        self.backgroundImageView.image = image?.alpha(0.5)
-//        self.backgroundImageView.contentMode = .scaleAspectFill
-//        
-//        self.view.addSubview(backgroundImageView)
-    
-//        self.view.backgroundColor = UIColor(patternImage: image!)
-//        self.view.contentMode = .scaleAspectFill
+
         
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -183,11 +172,7 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
     override func viewDidLayoutSubviews() {
 //        self.backgroundImageView.frame = self.view.bounds
     }
-    
-    //MARK: UIButtonActions
-    
-    
-    
+
     
     @IBAction func unwindToMain(segue: UIStoryboardSegue) {
         

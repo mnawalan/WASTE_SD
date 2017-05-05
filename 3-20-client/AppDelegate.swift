@@ -19,6 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         UserDefaults.standard.set(false, forKey: "connected")
         UserDefaults.standard.set(false, forKey: "initialized")
+        UserDefaults.standard.set("senior-mqtt.esc.nd.edu", forKey: "MQTTHost")
         let userinfo = UserDefaults.standard.bool(forKey: "connected")
         print("TRYING TO SET: ", userinfo.description)
         
