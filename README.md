@@ -1,4 +1,3 @@
-# WASTE_SD
 W.A.S.T.E Mobile App
 =========
 Wi-Fi Alarm System Trusted Environment Mobile App
